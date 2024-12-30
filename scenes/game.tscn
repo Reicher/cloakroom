@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://inwaawx2u5g"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_wby8c"]
+[ext_resource type="PackedScene" uid="uid://dxbjg1hsqysrg" path="res://scenes/counterView.tscn" id="2_2qaat"]
+[ext_resource type="PackedScene" uid="uid://vc34ay23a4hy" path="res://scenes/backRoom.tscn" id="3_lcbh3"]
+[ext_resource type="Texture2D" uid="uid://c5w6kmf4sou21" path="res://assets/image/turn.png" id="4_mi7fi"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_wby8c")
+
+[node name="CounterView" parent="." instance=ExtResource("2_2qaat")]
+
+[node name="Backroom" parent="." instance=ExtResource("3_lcbh3")]
+visible = false
+
+[node name="MarginContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureButton" type="TextureButton" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -100.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("4_mi7fi")
+
+[connection signal="pressed" from="MarginContainer/TextureButton" to="." method="_on_texture_button_pressed"]
