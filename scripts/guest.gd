@@ -4,9 +4,7 @@ var people_texture = preload("res://assets/image/people.png")
 const people_in_texture = 5
 
 var belonging_scene: PackedScene = preload("res://scenes/belonging.tscn")
-var belonging
-
-var serviceWindow : Sprite2D
+var belonging = belonging_scene.instantiate()
 
 # State management
 enum State {
@@ -23,9 +21,9 @@ func _ready():
 	new_texture.region = Rect2(145 * (randi() % people_in_texture), 0, 145, 252)  # Set the region for the specific character	
 	texture = new_texture
 	offset.y -= 50
+	
 
-func goTo(serviceWindow: Sprite2D, targetPos: Vector2):
-	self.serviceWindow = serviceWindow
+func goTo(targetPos: Vector2):
 	global_position = Vector2(0, targetPos.y)
 
 	state = State.FINDING_SPOT  # Change state to "finding spot" when moving
@@ -48,10 +46,9 @@ func goTo(serviceWindow: Sprite2D, targetPos: Vector2):
 	
 	
 func _on_tween_finished():
-	belonging = belonging_scene.instantiate()
-	belonging.global_position = Vector2(position.x, position.y+50)
-	serviceWindow.add_child(belonging)
-
+	belonging.position = Vector2(position.x, position.y+50)
+	belonging.created.emit(belonging) # Announce itself
+	
 	# Update state
 	state = State.WAITING_FOR_PICKUP
 	print("Customer is now waiting for pickup.")
