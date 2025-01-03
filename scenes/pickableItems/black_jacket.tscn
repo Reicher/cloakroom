@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://p245wj4rkbuu"]
+
+[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickable_item.tscn" id="1_egffv"]
+[ext_resource type="Texture2D" uid="uid://bxnsho4cpv30r" path="res://assets/image/belongings.png" id="2_fy8ac"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6wjj"]
+atlas = ExtResource("2_fy8ac")
+region = Rect2(0, 0, 100, 100)
+
+[node name="PickableItem" instance=ExtResource("1_egffv")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = SubResource("AtlasTexture_i6wjj")
+
+[node name="CollisionPolygon2D" parent="Area2D" index="0"]
+polygon = PackedVector2Array(-32, -38, -2, -42, 22, -41, 31, -19, 34, 30, 27, 43, 16, 49, -32, 42, -44, 38, -34, 3)

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://v7a2fkcy3kfe"]
+
+[ext_resource type="Script" path="res://scripts/pickable_item.gd" id="1_h4u6v"]
+
+[node name="PickableItem" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_h4u6v")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

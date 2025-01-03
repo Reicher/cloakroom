@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6hokntlrt5rk"]
+
+[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickable_item.tscn" id="1_o6fba"]
+[ext_resource type="Texture2D" uid="uid://cdy3abuyth3bb" path="res://assets/image/ticket.png" id="2_pek8y"]
+
+[node name="PickableItem" instance=ExtResource("1_o6fba")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_pek8y")
+
+[node name="CollisionPolygon2D" parent="Area2D" index="0"]
+polygon = PackedVector2Array(-8, -13, 8, -13, 8, 14, -8, 14, -8, -13)

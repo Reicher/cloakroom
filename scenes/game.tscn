@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://inwaawx2u5g"]
+[gd_scene load_steps=5 format=3 uid="uid://inwaawx2u5g"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_wby8c"]
 [ext_resource type="PackedScene" uid="uid://dxbjg1hsqysrg" path="res://scenes/counterView.tscn" id="2_2qaat"]
 [ext_resource type="PackedScene" uid="uid://vc34ay23a4hy" path="res://scenes/backRoom.tscn" id="3_lcbh3"]
 [ext_resource type="Texture2D" uid="uid://c5w6kmf4sou21" path="res://assets/image/turn.png" id="4_mi7fi"]
-[ext_resource type="Script" path="res://scripts/hand.gd" id="5_0tgto"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_wby8c")
@@ -40,8 +39,5 @@ offset_right = 50.0
 grow_horizontal = 2
 grow_vertical = 0
 texture_normal = ExtResource("4_mi7fi")
-
-[node name="Hand" type="Node2D" parent="."]
-script = ExtResource("5_0tgto")
 
 [connection signal="pressed" from="MarginContainer/TextureButton" to="." method="_on_texture_button_pressed"]

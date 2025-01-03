@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://vc34ay23a4hy"]
+[gd_scene load_steps=3 format=3 uid="uid://vc34ay23a4hy"]
 
 [ext_resource type="Texture2D" uid="uid://stfv18hhnxtp" path="res://assets/image/backroom.png" id="1_30mxw"]
+[ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://scenes/pickableItems/ticket.tscn" id="2_yg16r"]
 
 [node name="Backroom" type="Sprite2D"]
 texture = ExtResource("1_30mxw")
 centered = false
+
+[node name="ticket1" parent="." instance=ExtResource("2_yg16r")]
+position = Vector2(330, 508)
+
+[node name="ticket2" parent="." instance=ExtResource("2_yg16r")]
+position = Vector2(611, 441)
