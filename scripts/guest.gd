@@ -40,32 +40,28 @@ func _ready():
 	money = money_scene.instantiate()
 	money.visible = false
 	
-func goTo(targetPos: Vector2): # rename
-	state = State.FINDING_SPOT  # Change state to "finding spot" when moving
+func set_state(new_state: State):
+	print("State changed to:", new_state)
+	state = new_state
 	
-	global_position = Vector2(0, targetPos.y) # start pos ( a bit ugly )
-	
-	# Calculate the movement duration based on the desired speed
-	var speed = 50 + (randi() % 150)
-	var duration = global_position.distance_to(targetPos) / speed
-	
-	# Create a tween to move the customer to the target position
+func goTo(targetPos: Vector2):
+	set_state(State.FINDING_SPOT)
+	global_position = Vector2(0, targetPos.y)
+	move_to(targetPos, self._on_found_spot, 50 + (randi() % 150))
+
+func move_to(target_pos: Vector2, on_complete: Callable, speed: int = 100):
+	var duration = global_position.distance_to(target_pos) / speed
 	var tween = create_tween()
-	tween.tween_property(
-		self, 
-		"global_position", 
-		targetPos,    # Target position
-		duration            # Duration
-	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
-	
-	tween.finished.connect(self._on_found_spot)
-	
+	tween.tween_property(self, "global_position", target_pos, duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.finished.connect(on_complete)
+
 func _on_found_spot():
 	_drop_thing(belonging) # Could be other shit in future
 	belonging.picked.connect(_on_belonging_picked)
 	state = State.WAITING_FOR_PICKUP
 	
 func _on_belonging_picked():
+	set_state(State.WAITING_FOR_TICKET)
 	_drop_thing(money)
 	money.picked.connect(_on_money_picked)
 
@@ -78,32 +74,19 @@ func item_presented(item: Node2D):
 		_leave()
 		
 func _leave():
-	state = State.LEAVING
-	var targetPos = Vector2(get_viewport().size.x, position.y)
-	# Calculate the movement duration based on the desired speed
-	var speed = 50 + (randi() % 150)
-	var duration = global_position.distance_to(targetPos) / speed
-	
-	# Create a tween to move the customer to the target position
-	var tween = create_tween()
-	tween.tween_property(
-		self, 
-		"global_position", 
-		targetPos,    # Target position
-		duration            # Duration
-	).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
-	
-	tween.finished.connect(self._on_left)
+	set_state(State.LEAVING)
+	var target_pos = Vector2(get_viewport().size.x, position.y)
+	move_to(target_pos, self._on_left, 50 + (randi() % 150))
 	
 func _on_left():	
 	served.emit(self)
 
 func _on_money_picked():
-	print("GIVE ME MY TICKET!")
-	state = State.WAITING_FOR_TICKET
+	set_state(State.WAITING_FOR_TICKET)
 
 func _drop_thing(item: Node2D):
-	# Should be a little animation in the future?
-	item.position = Vector2(position.x, position.y + 50)
-	item.visible = true
+	if item:
+		print("Dropping item:", item.name)
+		item.position = position + Vector2(0, 50)
+		item.visible = true
 	

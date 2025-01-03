@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6hokntlrt5rk"]
+[gd_scene load_steps=5 format=3 uid="uid://c6hokntlrt5rk"]
 
 [ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickable_item.tscn" id="1_o6fba"]
 [ext_resource type="Texture2D" uid="uid://cdy3abuyth3bb" path="res://assets/image/ticket.png" id="2_pek8y"]
+[ext_resource type="Script" path="res://scripts/ticket.gd" id="3_id8yh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tykhu"]
+font_size = 12
 
 [node name="PickableItem" instance=ExtResource("1_o6fba")]
 
@@ -10,3 +14,21 @@ texture = ExtResource("2_pek8y")
 
 [node name="CollisionPolygon2D" parent="Area2D" index="0"]
 polygon = PackedVector2Array(-8, -13, 8, -13, 8, 14, -8, 14, -8, -13)
+
+[node name="Number" type="Label" parent="." index="2"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.5
+offset_top = -11.5
+offset_right = 9.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "17"
+label_settings = SubResource("LabelSettings_tykhu")
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("3_id8yh")

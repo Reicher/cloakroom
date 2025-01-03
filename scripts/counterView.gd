@@ -1,35 +1,34 @@
 extends Node2D
 
 var guestScene = preload("res://scenes/guest.tscn")
-@onready var windowLength = $"ServiceWindow/length"
+@onready var windowLength = $"ServiceWindow/length" # Counter-rim
 @onready var guests = $"Guests"
 @onready var pickables = $"Pickables"
 @onready var interactionZones = $"ServiceWindow/InteractionZones"  # Node to hold interaction areas
 
-var maxCustomers = 5
+var maxCustomers = 4
 
 enum SlotKeys { GUEST, POSITION, INTERACTION_BOX }
-
 var guestSlots = {}  # Initialize an empty dictionary to hold guest slots
 
 func _ready() -> void:
-	initialize_guest_slots()
-	_fillEmptySpots()
-
-func initialize_guest_slots():
 	var start = windowLength.points[0]
 	var end = windowLength.points[1]
 	var box_width = (end.x - start.x) / maxCustomers
 	var box_height = 100
 
 	for i in range(maxCustomers):
-		var position = Vector2(start.x + i * box_width, start.y)
-		var box = _create_interaction_box(position, box_width, box_height)
-		guestSlots[i] = {
-			SlotKeys.GUEST: null,
-			SlotKeys.POSITION: position + Vector2(box_width / 2, 0),
-			SlotKeys.INTERACTION_BOX: box
-		}
+		guestSlots[i] = _create_guest_slot(i, start, box_width, box_height)
+	_fillEmptySpots()
+
+func _create_guest_slot(index: int, start: Vector2, box_width: float, box_height: float) -> Dictionary:
+	var position = Vector2(start.x + index * box_width, start.y)
+	var box = _create_interaction_box(position, box_width, box_height)
+	return {
+		SlotKeys.GUEST: null,
+		SlotKeys.POSITION: position + Vector2(box_width / 2, 0),
+		SlotKeys.INTERACTION_BOX: box
+	}
 
 func _create_interaction_box(position: Vector2, width: float, height: float) -> Area2D:
 	var area = Area2D.new()
@@ -46,19 +45,16 @@ func _create_interaction_box(position: Vector2, width: float, height: float) -> 
 
 func item_dropped(item: Node2D):
 	print("Item dropped on counter!")
-	
-	# Get the Area2D child from the dropped item
-	var item_area = item.get_node("Area2D")
+	var item_area = item.get_node_or_null("Area2D")
 	if item_area == null:
 		print("Error: Dropped item does not have an Area2D!")
 		return
 
-	# Check for overlaps with each interaction box
-	for key in guestSlots.keys():
+	for key in guestSlots:
 		var box = guestSlots[key][SlotKeys.INTERACTION_BOX]
 		if box.overlaps_area(item_area):
 			print("Item in box!")
-			if guestSlots[key][SlotKeys.GUEST] != null:
+			if guestSlots[key][SlotKeys.GUEST]:
 				guestSlots[key][SlotKeys.GUEST].item_presented(item)
 			return
 
@@ -73,7 +69,6 @@ func _guest_left(guest: Node2D):
 			guestSlots[key][SlotKeys.GUEST] = null
 			guest.queue_free()
 			_fillEmptySpots()
-
 
 func _addGuest(spotIndex) -> void:
 	print("New guest created!")
