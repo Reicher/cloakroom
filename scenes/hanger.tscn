@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://h8f1ijy6dg00"]
+
+[ext_resource type="Texture2D" uid="uid://n7f28got6ja4" path="res://assets/image/hanger.png" id="1_ob1hw"]
+[ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://scenes/pickableItems/ticket.tscn" id="2_2g6x2"]
+
+[node name="Hanger" type="Node2D"]
+texture_filter = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 17)
+texture = ExtResource("1_ob1hw")
+
+[node name="ticket1" parent="." instance=ExtResource("2_2g6x2")]
+position = Vector2(1, 19)

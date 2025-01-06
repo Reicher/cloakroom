@@ -1,14 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://vc34ay23a4hy"]
+[gd_scene load_steps=4 format=3 uid="uid://vc34ay23a4hy"]
 
 [ext_resource type="Texture2D" uid="uid://stfv18hhnxtp" path="res://assets/image/backroom.png" id="1_30mxw"]
-[ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://scenes/pickableItems/ticket.tscn" id="2_yg16r"]
+[ext_resource type="Script" path="res://scripts/back_room.gd" id="2_d4jae"]
+[ext_resource type="PackedScene" uid="uid://h8f1ijy6dg00" path="res://scenes/hanger.tscn" id="3_noerm"]
 
 [node name="Backroom" type="Sprite2D"]
+texture_filter = 1
 texture = ExtResource("1_30mxw")
 centered = false
+script = ExtResource("2_d4jae")
 
-[node name="ticket1" parent="." instance=ExtResource("2_yg16r")]
-position = Vector2(330, 508)
+[node name="Hanger" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(253, 167)
 
-[node name="ticket2" parent="." instance=ExtResource("2_yg16r")]
-position = Vector2(611, 441)
+[node name="Hanger2" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(396, 328)
+
+[node name="Hanger3" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(625, 167)
+
+[node name="Hanger4" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(575, 328)
+
+[node name="Hanger5" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(702, 328)
+
+[node name="Hanger6" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(766, 328)
+
+[node name="Hanger7" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(902, 167)
+
+[node name="Hanger8" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(368, 167)
+
+[node name="Hanger9" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(290, 328)
+
+[node name="Hanger10" parent="." instance=ExtResource("3_noerm")]
+position = Vector2(1039, 551)
+rotation = -2.24589
