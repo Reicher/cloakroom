@@ -44,7 +44,6 @@ func _create_interaction_box(position: Vector2, width: float, height: float) -> 
 	return area
 
 func item_dropped(item: Node2D):
-	print("Item dropped on counter!")
 	var item_area = item.get_node_or_null("Area2D")
 	if item_area == null:
 		print("Error: Dropped item does not have an Area2D!")
@@ -53,7 +52,6 @@ func item_dropped(item: Node2D):
 	for key in guestSlots:
 		var box = guestSlots[key][SlotKeys.INTERACTION_BOX]
 		if box.overlaps_area(item_area):
-			print("Item in box!")
 			if guestSlots[key][SlotKeys.GUEST]:
 				guestSlots[key][SlotKeys.GUEST].item_presented(item)
 			return

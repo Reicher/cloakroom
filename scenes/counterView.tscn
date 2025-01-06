@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxbjg1hsqysrg"]
+[gd_scene load_steps=6 format=3 uid="uid://dxbjg1hsqysrg"]
 
 [ext_resource type="Texture2D" uid="uid://dp80lasi5af0h" path="res://assets/image/club.png" id="1_ie1u5"]
 [ext_resource type="Script" path="res://scripts/counterView.gd" id="1_s3h55"]
 [ext_resource type="Texture2D" uid="uid://c4072p0s76a0o" path="res://assets/image/serviceWindow.png" id="2_jguwd"]
+[ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://scenes/clock.tscn" id="4_miswy"]
 [ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://scenes/pickableItems/newspaper.tscn" id="4_yor8v"]
 
 [node name="CounterView" type="Node2D"]
@@ -19,10 +20,13 @@ texture = ExtResource("2_jguwd")
 centered = false
 
 [node name="length" type="Line2D" parent="ServiceWindow"]
-points = PackedVector2Array(165, 430, 1000, 430)
+points = PackedVector2Array(246, 508, 907, 509)
 default_color = Color(1, 1, 1, 0)
 
 [node name="InteractionZones" type="Node2D" parent="ServiceWindow"]
+
+[node name="Clock" parent="ServiceWindow" instance=ExtResource("4_miswy")]
+position = Vector2(1041, 150)
 
 [node name="Pickables" type="Node2D" parent="."]
 

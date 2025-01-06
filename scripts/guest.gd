@@ -47,7 +47,7 @@ func set_state(new_state: State):
 func goTo(targetPos: Vector2):
 	set_state(State.FINDING_SPOT)
 	global_position = Vector2(0, targetPos.y)
-	move_to(targetPos, self._on_found_spot, 50 + (randi() % 150))
+	move_to(targetPos, self._on_found_spot, 150 + (randi() % 150))
 
 func move_to(target_pos: Vector2, on_complete: Callable, speed: int = 100):
 	var duration = global_position.distance_to(target_pos) / speed
@@ -66,7 +66,6 @@ func _on_belonging_picked():
 	money.picked.connect(_on_money_picked)
 
 func item_presented(item: Node2D):
-	print("GOT ITEM " + item.name)
 	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):
 		ticket = item
 		ticket.move_to_parent(self)
@@ -76,7 +75,7 @@ func item_presented(item: Node2D):
 func _leave():
 	set_state(State.LEAVING)
 	var target_pos = Vector2(get_viewport().size.x, position.y)
-	move_to(target_pos, self._on_left, 50 + (randi() % 150))
+	move_to(target_pos, self._on_left, 150 + (randi() % 150))
 	
 func _on_left():	
 	served.emit(self)
@@ -86,7 +85,6 @@ func _on_money_picked():
 
 func _drop_thing(item: Node2D):
 	if item:
-		print("Dropping item:", item.name)
 		item.position = position + Vector2(0, 50)
 		item.visible = true
 	
