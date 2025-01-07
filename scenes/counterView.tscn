@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxbjg1hsqysrg"]
+[gd_scene load_steps=7 format=3 uid="uid://dxbjg1hsqysrg"]
 
 [ext_resource type="Texture2D" uid="uid://dp80lasi5af0h" path="res://assets/image/club.png" id="1_ie1u5"]
 [ext_resource type="Script" path="res://scripts/counterView.gd" id="1_s3h55"]
@@ -6,7 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://scenes/clock.tscn" id="4_miswy"]
 [ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://scenes/pickableItems/newspaper.tscn" id="4_yor8v"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ns6my"]
+size = Vector2(660, 370)
+
 [node name="CounterView" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_s3h55")
 
 [node name="Club" type="Sprite2D" parent="."]
@@ -15,20 +19,23 @@ centered = false
 
 [node name="Guests" type="Node2D" parent="."]
 
-[node name="ServiceWindow" type="Sprite2D" parent="."]
+[node name="Walls" type="Sprite2D" parent="."]
 texture = ExtResource("2_jguwd")
 centered = false
 
-[node name="length" type="Line2D" parent="ServiceWindow"]
-points = PackedVector2Array(246, 508, 907, 509)
-default_color = Color(1, 1, 1, 0)
-
-[node name="InteractionZones" type="Node2D" parent="ServiceWindow"]
-
-[node name="Clock" parent="ServiceWindow" instance=ExtResource("4_miswy")]
+[node name="Clock" parent="Walls" instance=ExtResource("4_miswy")]
 position = Vector2(1041, 150)
 
 [node name="Pickables" type="Node2D" parent="."]
 
 [node name="Newspaper" parent="Pickables" instance=ExtResource("4_yor8v")]
 position = Vector2(1016, 550)
+
+[node name="ServiceWindow" type="Area2D" parent="."]
+position = Vector2(246, 139)
+
+[node name="Shape" type="CollisionShape2D" parent="ServiceWindow"]
+position = Vector2(330, 185)
+shape = SubResource("RectangleShape2D_ns6my")
+
+[node name="InteractionZones" type="Node2D" parent="ServiceWindow"]

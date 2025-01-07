@@ -1,7 +1,8 @@
 extends Node2D
 
 var guestScene = preload("res://scenes/guest.tscn")
-@onready var windowLength = $"ServiceWindow/length" # Counter-rim
+@onready var serviceWindow = $"ServiceWindow"
+@onready var windowShape = $"ServiceWindow/Shape"
 @onready var guests = $"Guests"
 @onready var pickables = $"Pickables"
 @onready var interactionZones = $"ServiceWindow/InteractionZones"  # Node to hold interaction areas
@@ -11,9 +12,10 @@ var maxCustomers = 4
 enum SlotKeys { GUEST, POSITION, INTERACTION_BOX }
 var guestSlots = {}  # Initialize an empty dictionary to hold guest slots
 
-func _ready() -> void:
-	var start = windowLength.points[0]
-	var end = windowLength.points[1]
+func _ready() -> void:	
+	var extents = windowShape.shape.extents
+	var start = serviceWindow.global_position + Vector2(0, extents.y*2)
+	var end = serviceWindow.global_position + Vector2(extents.x*2, extents.y*2)
 	var box_width = (end.x - start.x) / maxCustomers
 	var box_height = 100
 
