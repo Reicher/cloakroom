@@ -3,6 +3,8 @@ extends Node2D
 signal picked
 var carried: bool = false
 
+@onready var area: Area2D = $Area2D
+
 func move_to_parent(new_parent: Node):
 	# Remove from current parent and add to the new parent
 	if get_parent():

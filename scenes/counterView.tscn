@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxbjg1hsqysrg"]
+[gd_scene load_steps=8 format=3 uid="uid://dxbjg1hsqysrg"]
 
 [ext_resource type="Texture2D" uid="uid://dp80lasi5af0h" path="res://assets/image/club.png" id="1_ie1u5"]
 [ext_resource type="Script" path="res://scripts/counterView.gd" id="1_s3h55"]
 [ext_resource type="Texture2D" uid="uid://c4072p0s76a0o" path="res://assets/image/serviceWindow.png" id="2_jguwd"]
 [ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://scenes/clock.tscn" id="4_miswy"]
 [ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://scenes/pickableItems/newspaper.tscn" id="4_yor8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e4xbm"]
+size = Vector2(1151, 137)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns6my"]
 size = Vector2(660, 370)
@@ -19,12 +22,19 @@ centered = false
 
 [node name="Guests" type="Node2D" parent="."]
 
-[node name="Walls" type="Sprite2D" parent="."]
+[node name="Booth" type="Sprite2D" parent="."]
 texture = ExtResource("2_jguwd")
 centered = false
 
-[node name="Clock" parent="Walls" instance=ExtResource("4_miswy")]
+[node name="Clock" parent="Booth" instance=ExtResource("4_miswy")]
 position = Vector2(1041, 150)
+
+[node name="Surface" type="Area2D" parent="Booth"]
+position = Vector2(0, 509)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Booth/Surface"]
+position = Vector2(575.5, 68.5)
+shape = SubResource("RectangleShape2D_e4xbm")
 
 [node name="Pickables" type="Node2D" parent="."]
 

@@ -18,6 +18,8 @@ func _ready() -> void:
 	var end = serviceWindow.global_position + Vector2(extents.x*2, extents.y*2)
 	var box_width = (end.x - start.x) / maxCustomers
 	var box_height = 100
+	
+	Hand.add_surface_for_dropping($Booth/Surface)
 
 	for i in range(maxCustomers):
 		guestSlots[i] = _create_guest_slot(i, start, box_width, box_height)
