@@ -18,6 +18,11 @@ func pick_up_item(item: Node2D):
 		item.carried = true
 		pick.emit(item)
 		
+func drop_item():
+	drop.emit(held_belonging)
+	held_belonging.carried = false
+	held_belonging = null
+
 func add_surface_for_dropping(surface: Area2D):
 	if surface not in surfaces:
 		surfaces.append(surface)
@@ -36,11 +41,7 @@ func _input(event):
 		and event.pressed and held_belonging:
 
 		if is_valid_drop_position():
-			drop.emit(held_belonging)
-			held_belonging.carried = false
-			held_belonging = null
-		else:
-			print("Cannot drop here: Not a valid surface!")
+			drop_item()
 
 # Update held item's position to follow the mouse
 func _process(delta):
