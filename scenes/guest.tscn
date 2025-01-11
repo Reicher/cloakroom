@@ -1,12 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5lv7jagjt36c"]
+[gd_scene load_steps=6 format=3 uid="uid://b5lv7jagjt36c"]
 
 [ext_resource type="Texture2D" uid="uid://cfdkgih8upaqi" path="res://assets/image/people.png" id="1_0h3y4"]
 [ext_resource type="Script" path="res://scripts/guest.gd" id="1_cosfk"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="3_fgw42"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jnwbw"]
 atlas = ExtResource("1_0h3y4")
 region = Rect2(0, 0, 145, 252)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejxsv"]
+size = Vector2(146, 125)
+
 [node name="Guest" type="Sprite2D"]
 texture = SubResource("AtlasTexture_jnwbw")
 script = ExtResource("1_cosfk")
+
+[node name="Surface" parent="." instance=ExtResource("3_fgw42")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Surface"]
+position = Vector2(2, -444.5)
+shape = SubResource("RectangleShape2D_ejxsv")
+
+[connection signal="item_added" from="Surface" to="." method="_on_surface_item_added"]

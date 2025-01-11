@@ -64,13 +64,6 @@ func _on_belonging_picked():
 	_drop_thing(money)
 	money.picked.connect(_on_money_picked)
 
-func item_presented(item: Node2D):
-	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):
-		ticket = item
-		ticket.move_to_parent(self)
-		ticket.visible = false
-		_leave()
-		
 func _leave():
 	set_state(State.LEAVING)
 	var target_pos = Vector2(get_viewport().size.x, position.y)
@@ -87,3 +80,10 @@ func _drop_thing(item: Node2D):
 		item.position = position + Vector2(0, 50)
 		item.visible = true
 	
+func _on_surface_item_added(item: Node2D) -> void:
+	print("Something drop in front of me! " + self.name)
+	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):
+		ticket = item
+		ticket.move_to_parent(self)
+		ticket.visible = false
+		_leave()

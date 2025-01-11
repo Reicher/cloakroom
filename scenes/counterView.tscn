@@ -36,9 +36,6 @@ position = Vector2(1041, 150)
 position = Vector2(575.5, 68.5)
 shape = SubResource("RectangleShape2D_g8ypt")
 
-[node name="InteractionZones" type="Node2D" parent="Booth/Surface"]
-position = Vector2(246, -370)
-
 [node name="ServiceWindow" type="Area2D" parent="Booth"]
 position = Vector2(246, 139)
 

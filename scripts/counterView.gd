@@ -5,7 +5,6 @@ var guestScene = preload("res://scenes/guest.tscn")
 @onready var windowShape = $Booth/ServiceWindow/Shape
 @onready var guests = $"Guests"
 @onready var pickables = $"Pickables"
-@onready var interactionZones = $Booth/Surface/InteractionZones
 
 var maxCustomers = 4
 
@@ -25,25 +24,10 @@ func _ready() -> void:
 
 func _create_guest_slot(index: int, start: Vector2, box_width: float, box_height: float) -> Dictionary:
 	var position = Vector2(start.x + index * box_width, start.y)
-	var box = _create_interaction_box(position, box_width, box_height)
 	return {
 		SlotKeys.GUEST: null,
-		SlotKeys.POSITION: position + Vector2(box_width / 2, 0),
-		SlotKeys.INTERACTION_BOX: box
+		SlotKeys.POSITION: position + Vector2(box_width / 2, 0)
 	}
-
-func _create_interaction_box(position: Vector2, width: float, height: float) -> Area2D:
-	var area = Area2D.new()
-	var collision_shape = CollisionShape2D.new()
-	collision_shape.shape = RectangleShape2D.new()
-	collision_shape.shape.extents = Vector2(width / 2, height / 2)
-
-	# Centering area position
-	area.position = position + Vector2(width / 2, height / 2)
-
-	area.add_child(collision_shape)
-	interactionZones.add_child(area)
-	return area
 
 func _fillEmptySpots() -> void:
 	for key in guestSlots.keys():
@@ -60,7 +44,6 @@ func _guest_left(guest: Node2D):
 func _addGuest(spotIndex) -> void:
 	print("New guest created!")
 	var guest = guestScene.instantiate()
-	guest.interactionZone = guestSlots[spotIndex][SlotKeys.INTERACTION_BOX]
 	guest.served.connect(_guest_left)
 	guests.add_child(guest)
 	pickables.add_child(guest.belonging)
@@ -68,17 +51,3 @@ func _addGuest(spotIndex) -> void:
 
 	guestSlots[spotIndex][SlotKeys.GUEST] = guest
 	guest.goTo(guestSlots[spotIndex][SlotKeys.POSITION])
-
-func _on_surface_item_added(item: Node2D) -> void:
-	var item_area = item.get_node_or_null("Area2D")
-	if item_area == null:
-		print("Error: Dropped item does not have an Area2D!")
-		return
-
-	for key in guestSlots:
-		var box = guestSlots[key][SlotKeys.INTERACTION_BOX]
-		if box.overlaps_area(item_area):
-			print("item in box")
-			if guestSlots[key][SlotKeys.GUEST]:
-				guestSlots[key][SlotKeys.GUEST].item_presented(item)
-			return
