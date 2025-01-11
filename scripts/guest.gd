@@ -41,7 +41,6 @@ func _ready():
 	money.visible = false
 	
 func set_state(new_state: State):
-	print("State changed to:", new_state)
 	state = new_state
 	
 func goTo(targetPos: Vector2):

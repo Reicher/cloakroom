@@ -1,21 +1,11 @@
 extends Node2D
 
 @onready var area : Area2D = $Area2D
+@onready var shader_material: ShaderMaterial = $Sprite2D.material
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _ready():
+	if shader_material and shader_material is ShaderMaterial:
+		shader_material.set_shader_param("is_hovering", false)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-# Detect right mouse button clicks
-func _input(event):
-	if event is InputEventMouseButton \
-		and event.button_index == MOUSE_BUTTON_RIGHT \
-		and event.pressed and Hand.held_belonging \
-		and area.overlaps_area(Hand.held_belonging.area):
-			Hand.drop_item()
-			
+func _on_surface_item_added(item: Node2D) -> void:
+	print("item hanged")

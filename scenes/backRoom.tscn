@@ -1,14 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://vc34ay23a4hy"]
 
 [ext_resource type="Texture2D" uid="uid://stfv18hhnxtp" path="res://assets/image/backroom.png" id="1_30mxw"]
-[ext_resource type="Script" path="res://scripts/backRoom.gd" id="2_d4jae"]
 [ext_resource type="PackedScene" uid="uid://h8f1ijy6dg00" path="res://scenes/hanger.tscn" id="3_noerm"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="4_qo0e2"]
 
 [node name="Backroom" type="Sprite2D"]
 texture_filter = 1
 texture = ExtResource("1_30mxw")
 centered = false
-script = ExtResource("2_d4jae")
 
 [node name="Hanger" parent="." instance=ExtResource("3_noerm")]
 position = Vector2(253, 167)
@@ -41,8 +40,7 @@ position = Vector2(290, 328)
 position = Vector2(1039, 551)
 rotation = -2.24589
 
-[node name="Surface" type="Area2D" parent="."]
-position = Vector2(0, 527)
+[node name="Surface" parent="." instance=ExtResource("4_qo0e2")]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Surface"]
-polygon = PackedVector2Array(116, -45, 1039, -43, 1153, -2, 1151, 120, 1, 122, 0, -4)
+polygon = PackedVector2Array(115, -25, 1040, -26, 1153, 15, 1156, 139, -2, 142, 0, 12)

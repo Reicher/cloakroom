@@ -1,11 +1,11 @@
 extends Node2D
 
 var guestScene = preload("res://scenes/guest.tscn")
-@onready var serviceWindow = $"ServiceWindow"
-@onready var windowShape = $"ServiceWindow/Shape"
+@onready var serviceWindow = $Booth/ServiceWindow
+@onready var windowShape = $Booth/ServiceWindow/Shape
 @onready var guests = $"Guests"
 @onready var pickables = $"Pickables"
-@onready var interactionZones = $"ServiceWindow/InteractionZones"  # Node to hold interaction areas
+@onready var interactionZones = $Booth/Surface/InteractionZones
 
 var maxCustomers = 4
 
@@ -19,8 +19,6 @@ func _ready() -> void:
 	var box_width = (end.x - start.x) / maxCustomers
 	var box_height = 100
 	
-	Hand.add_surface_for_dropping($Booth/Surface)
-
 	for i in range(maxCustomers):
 		guestSlots[i] = _create_guest_slot(i, start, box_width, box_height)
 	_fillEmptySpots()
@@ -47,19 +45,6 @@ func _create_interaction_box(position: Vector2, width: float, height: float) -> 
 	interactionZones.add_child(area)
 	return area
 
-func item_dropped(item: Node2D):
-	var item_area = item.get_node_or_null("Area2D")
-	if item_area == null:
-		print("Error: Dropped item does not have an Area2D!")
-		return
-
-	for key in guestSlots:
-		var box = guestSlots[key][SlotKeys.INTERACTION_BOX]
-		if box.overlaps_area(item_area):
-			if guestSlots[key][SlotKeys.GUEST]:
-				guestSlots[key][SlotKeys.GUEST].item_presented(item)
-			return
-
 func _fillEmptySpots() -> void:
 	for key in guestSlots.keys():
 		if guestSlots[key][SlotKeys.GUEST] == null:
@@ -83,3 +68,17 @@ func _addGuest(spotIndex) -> void:
 
 	guestSlots[spotIndex][SlotKeys.GUEST] = guest
 	guest.goTo(guestSlots[spotIndex][SlotKeys.POSITION])
+
+func _on_surface_item_added(item: Node2D) -> void:
+	var item_area = item.get_node_or_null("Area2D")
+	if item_area == null:
+		print("Error: Dropped item does not have an Area2D!")
+		return
+
+	for key in guestSlots:
+		var box = guestSlots[key][SlotKeys.INTERACTION_BOX]
+		if box.overlaps_area(item_area):
+			print("item in box")
+			if guestSlots[key][SlotKeys.GUEST]:
+				guestSlots[key][SlotKeys.GUEST].item_presented(item)
+			return

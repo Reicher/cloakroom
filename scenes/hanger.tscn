@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://h8f1ijy6dg00"]
+[gd_scene load_steps=5 format=3 uid="uid://h8f1ijy6dg00"]
 
 [ext_resource type="Script" path="res://scripts/hanger.gd" id="1_8vxsm"]
 [ext_resource type="Texture2D" uid="uid://n7f28got6ja4" path="res://assets/image/hanger.png" id="1_ob1hw"]
 [ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://scenes/pickableItems/ticket.tscn" id="2_2g6x2"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="4_wteo5"]
 
 [node name="Hanger" type="Node2D"]
 texture_filter = 1
@@ -15,7 +16,10 @@ texture = ExtResource("1_ob1hw")
 [node name="ticket1" parent="." instance=ExtResource("2_2g6x2")]
 position = Vector2(1, 19)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Surface" parent="." instance=ExtResource("4_wteo5")]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Surface"]
+position = Vector2(0, -509)
 polygon = PackedVector2Array(-43, 41, 45, 41, 49, 32, 0, 7, -48, 32)
+
+[connection signal="item_added" from="Surface" to="." method="_on_surface_item_added"]
