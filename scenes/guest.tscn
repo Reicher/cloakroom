@@ -21,4 +21,7 @@ script = ExtResource("1_cosfk")
 position = Vector2(2, -444.5)
 shape = SubResource("RectangleShape2D_ejxsv")
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="item_added" from="Surface" to="." method="_on_surface_item_added"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

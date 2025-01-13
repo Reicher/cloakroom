@@ -16,7 +16,6 @@ var belonging : Node2D
 var money : Node2D
 var ticket : Node2D
 
-var interactionZone : Area2D
 
 func _ready():
 	var people_texture = load("res://assets/image/people.png")
@@ -71,6 +70,7 @@ func _leave():
 	
 func _on_left():	
 	served.emit(self)
+	Hand.remove_surface($Surface)
 
 func _on_money_picked():
 	set_state(State.WAITING_FOR_TICKET)
@@ -87,3 +87,6 @@ func _on_surface_item_added(item: Node2D) -> void:
 		ticket.move_to_parent(self)
 		ticket.visible = false
 		_leave()
+
+func _on_timer_timeout() -> void:
+	pass # Replace with function body.

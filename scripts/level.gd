@@ -8,35 +8,34 @@ var active_view: Node2D = null
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 2  # Total number of guests
-var night_duration = 10  # Duration of the night in seconds
-var elapsed_time = 0
+var total_guests = 10  # Total number of guests
+var night_duration = 30  # Duration of the night in seconds
 
 # Guest Management
-var arrival_times = []
+var guests = []
 
 func _ready():
 	active_view = counter_view  # Default active view
 	Hand.pick.connect(_on_pick)
+	_create_guests()
 	
-	# Calculate guest arrival times with a linearly decreasing probability distribution
+func _create_guests():
+	# Calculate guest arrival times with a uniform distribution between 0 and <night_duration>
+	var arrival_times = []
 	for i in range(total_guests):
-		# Randomly pick a number between 0 and 1, then apply linear weighting
-		arrival_times.append((1 - sqrt(randf())) * night_duration)
-		
+		arrival_times.append(randi() % night_duration)
+	
+	# Sort the arrival times to make them sequential (optional but logical for gameplay)
 	arrival_times.sort()
 	print(arrival_times)
 	
-func _process(delta: float) -> void:
-	elapsed_time += delta	
-
-	if not arrival_times.is_empty() and elapsed_time >= arrival_times.front():
-		arrival_times.pop_front()
-		# Instantiate guest scenes and set their properties
-		var guest_insance = guestScene.instantiate()
-		# Set tons of things
-		counter_view.new_guest(guest_insance)
-
+	# Instantiate guest scenes and set their properties
+	for i in range(total_guests):
+		var guest_instance = guestScene.instance()
+		guest_instance.set("arrival_time", arrival_times[i])
+		guests.append(guest_instance)
+		add_child(guest_instance)  # Add guest instance to the scene tree
+	
 func _on_pick(item: Node2D):
 	item.position = Vector2.ZERO
 	item.move_to_parent(self)

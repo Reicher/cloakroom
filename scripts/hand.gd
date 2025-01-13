@@ -20,6 +20,10 @@ func pick_up_item(item: Node2D):
 func add_surface_for_dropping(surface: Area2D):
 	if surface not in surfaces:
 		surfaces.append(surface)
+		
+func remove_surface(surface: Area2D):
+	if surface in surfaces:
+		surfaces.erase(surface)
 
 # Detect right mouse button clicks
 func _input(event):
