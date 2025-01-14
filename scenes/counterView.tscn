@@ -1,17 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dxbjg1hsqysrg"]
+[gd_scene load_steps=10 format=3 uid="uid://dxbjg1hsqysrg"]
 
 [ext_resource type="Texture2D" uid="uid://dp80lasi5af0h" path="res://assets/image/club.png" id="1_ie1u5"]
 [ext_resource type="Script" path="res://scripts/counterView.gd" id="1_s3h55"]
 [ext_resource type="Texture2D" uid="uid://c4072p0s76a0o" path="res://assets/image/serviceWindow.png" id="2_jguwd"]
+[ext_resource type="Script" path="res://scripts/queue.gd" id="3_vjcev"]
 [ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://scenes/clock.tscn" id="4_miswy"]
 [ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://scenes/pickableItems/newspaper.tscn" id="4_yor8v"]
 [ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="5_180sd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8ypt"]
-size = Vector2(1151, 137)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns6my"]
 size = Vector2(660, 370)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8ypt"]
+size = Vector2(1151, 137)
 
 [node name="CounterView" type="Node2D"]
 texture_filter = 1
@@ -21,7 +22,25 @@ script = ExtResource("1_s3h55")
 texture = ExtResource("1_ie1u5")
 centered = false
 
-[node name="Guests" type="Node2D" parent="."]
+[node name="Queue" type="Node2D" parent="."]
+script = ExtResource("3_vjcev")
+
+[node name="ServiceWindow" type="Area2D" parent="Queue"]
+position = Vector2(246, 139)
+
+[node name="Shape" type="CollisionShape2D" parent="Queue/ServiceWindow"]
+position = Vector2(330, 185)
+shape = SubResource("RectangleShape2D_ns6my")
+
+[node name="Rest" type="Node2D" parent="Queue"]
+
+[node name="Row3" type="Node2D" parent="Queue"]
+
+[node name="Row2" type="Node2D" parent="Queue"]
+
+[node name="Row1" type="Node2D" parent="Queue"]
+
+[node name="Counter" type="Node2D" parent="Queue"]
 
 [node name="Booth" type="Sprite2D" parent="."]
 texture = ExtResource("2_jguwd")
@@ -37,16 +56,7 @@ can_hold_items = true
 position = Vector2(575.5, 68.5)
 shape = SubResource("RectangleShape2D_g8ypt")
 
-[node name="ServiceWindow" type="Area2D" parent="Booth"]
-position = Vector2(246, 139)
-
-[node name="Shape" type="CollisionShape2D" parent="Booth/ServiceWindow"]
-position = Vector2(330, 185)
-shape = SubResource("RectangleShape2D_ns6my")
-
-[node name="Pickables" type="Node2D" parent="."]
-
-[node name="Newspaper" parent="Pickables" instance=ExtResource("4_yor8v")]
+[node name="Newspaper" parent="." instance=ExtResource("4_yor8v")]
 position = Vector2(1016, 550)
 
 [connection signal="item_added" from="Booth/Surface" to="." method="_on_surface_item_added"]

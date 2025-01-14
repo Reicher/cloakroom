@@ -8,7 +8,7 @@ var active_view: Node2D = null
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 2  # Total number of guests
+var total_guests = 16  # Total number of guests
 var night_duration = 10  # Duration of the night in seconds
 var elapsed_time = 0
 
@@ -25,17 +25,16 @@ func _ready():
 		arrival_times.append((1 - sqrt(randf())) * night_duration)
 		
 	arrival_times.sort()
-	print(arrival_times)
 	
 func _process(delta: float) -> void:
 	elapsed_time += delta	
 
+	# Creat a new guest and have them go to the counter
 	if not arrival_times.is_empty() and elapsed_time >= arrival_times.front():
 		arrival_times.pop_front()
-		# Instantiate guest scenes and set their properties
 		var guest_insance = guestScene.instantiate()
 		# Set tons of things
-		counter_view.new_guest(guest_insance)
+		counter_view.queue.handle_guest(guest_insance)
 
 func _on_pick(item: Node2D):
 	item.position = Vector2.ZERO
