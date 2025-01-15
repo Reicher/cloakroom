@@ -1,6 +1,7 @@
 extends Sprite2D
 
 signal served(guest: Node2D)
+signal dropItem(item: Node2D)
 
 # State management
 enum State {
@@ -18,6 +19,7 @@ var ticket : Node2D
 
 
 func _ready():
+	global_position = Vector2.ZERO
 	var people_texture = load("res://assets/image/people.png")
 	const people_in_texture = 5
 	
@@ -28,23 +30,17 @@ func _ready():
 	texture = new_texture
 	offset.y -= 50
 	
-	# Add a random belonging
-	var b_str = ["black_jacket.tscn"].pick_random()
-	var b_scene = load("res://scenes/pickableItems/" + b_str)
-	belonging = b_scene.instantiate()
-	belonging.visible = false
-	
 	# Add some money
 	var money_scene = load("res://scenes/pickableItems/money.tscn")
 	money = money_scene.instantiate()
 	money.visible = false
+	
 	
 func set_state(new_state: State):
 	state = new_state
 	
 func goTo(targetPos: Vector2):
 	set_state(State.FINDING_SPOT)
-	global_position = Vector2(0, targetPos.y)
 	move_to(targetPos, self._on_found_spot, 150 + (randi() % 150))
 
 func move_to(target_pos: Vector2, on_complete: Callable, speed: int = 100):
@@ -54,8 +50,17 @@ func move_to(target_pos: Vector2, on_complete: Callable, speed: int = 100):
 	tween.finished.connect(on_complete)
 
 func _on_found_spot():
-	_drop_thing(belonging) # Could be other shit in future
+	# Add a random belonging
+	var b_str = ["black_jacket.tscn"].pick_random()
+	var b_scene = load("res://scenes/pickableItems/" + b_str)
+	
+	belonging = b_scene.instantiate()
+	self.add_child(belonging)
+	belonging.position = position + Vector2(0, 30)		
+	
 	belonging.picked.connect(_on_belonging_picked)
+	dropItem.emit(belonging)
+	
 	state = State.WAITING_FOR_PICKUP
 	
 func _on_belonging_picked():

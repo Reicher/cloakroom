@@ -14,7 +14,8 @@ func move_to_parent(new_parent: Node):
 	new_parent.add_child(self)
 	
 	# Set the item's position relative to the new parent
-	self.position = new_parent.to_local(global_position)
+	#self.position = new_parent.to_local(global_position)
+	self.global_position = global_position
 
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:

@@ -29,21 +29,25 @@ func remove_surface(surface: Area2D):
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT \
 		and event.pressed and held_belonging:
+		if _drop_item(held_belonging):
+			held_belonging.carried = false
+			held_belonging = null
 		
-		var affected_surfaces = []
-		for surface in surfaces:
-			if surface.is_visible_in_tree() and surface is Area2D \
-			and surface.overlaps_area(held_belonging.area):
-				affected_surfaces.append(surface)
+func _drop_item(item: Node2D):
+	var affected_surfaces = []
+	for surface in surfaces:
+		if surface.is_visible_in_tree() and surface is Area2D \
+		and surface.overlaps_area(item.area):
+			affected_surfaces.append(surface)
+	
+	if len(affected_surfaces) == 0:
+		return false
+	
+	for surface in affected_surfaces:
+		surface.item_dropped(item)
+		print(surface.name + " got an " + item.name + " on it")
 		
-		if len(affected_surfaces) == 0:
-			return
-		
-		for surface in affected_surfaces:
-			surface.item_dropped(held_belonging)
-			
-		held_belonging.carried = false
-		held_belonging = null
+	return true
 
 # Update held item's position to follow the mouse
 func _process(delta):

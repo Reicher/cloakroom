@@ -12,7 +12,7 @@ func _ready() -> void:
 	# Calculate dimensions
 	var extents = window_shape.shape.extents
 	var box_width = (extents.x * 2) / maxCustomers
-	var start = window_shape.position + Vector2(0, extents.y * 2)
+	var start = window_shape.position + Vector2(0, extents.y * 1.8)
 
 	# Create spots dynamically for each row in the order array
 	for row_index in range(order.size()):
@@ -35,7 +35,6 @@ func _add_spot(parent: Node2D, position: Vector2) -> void:
 	parent.add_child(spot)
 	
 func handle_guest(guest: Node2D) -> void:
-	
 	for parent in order:
 		for child in parent.get_children():
 			#print(child.name)
@@ -48,10 +47,3 @@ func handle_guest(guest: Node2D) -> void:
 	
 	print("No available spot for guest, goes into rest")
 	rest.add_child(guest)
-			
-func _assign_guest_to_slot(guest: Node2D, slot: Dictionary):
-	#slot[SlotKeys.GUEST] = guest
-	$Counter.add_child(guest)
-	#pickables.add_child(guest.belonging)
-	#pickables.add_child(guest.money)
-	#guest.goTo(slot[SlotKeys.POSITION])
