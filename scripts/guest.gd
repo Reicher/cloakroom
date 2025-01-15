@@ -4,94 +4,70 @@ signal served(guest: Node2D)
 signal dropItem(item: Node2D)
 
 # State management
-enum State {
-	IN_LINE,
-	FINDING_SPOT,
-	WAITING_FOR_PICKUP,
-	WAITING_FOR_TICKET,
-	LEAVING
-}
-var state: State = State.IN_LINE 
+enum State { IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_TICKET, IN_CLUB }
+var state: State = State.IN_LINE
 
-var belonging : Node2D
-var money : Node2D
-var ticket : Node2D
-
+var belonging: Node2D
+var money: Node2D
+var ticket: Node2D
 
 func _ready():
-	global_position = Vector2.ZERO
-	var people_texture = load("res://assets/image/people.png")
-	const people_in_texture = 5
-	
-	# Add a random sprite atlas region to the guest
-	var new_texture = AtlasTexture.new()
-	new_texture.atlas = people_texture  # Set the atlas to the full texture
-	new_texture.region = Rect2(145 * (randi() % people_in_texture), 0, 145, 252)  # Set the region for the specific character	
-	texture = new_texture
+	global_position = Vector2(0, 300)
+	_set_random_texture("res://assets/image/people.png", 5, 145, 252)
 	offset.y -= 50
-	
-	# Add some money
-	var money_scene = load("res://scenes/pickableItems/money.tscn")
-	money = money_scene.instantiate()
-	money.visible = false
-	
-	
-func set_state(new_state: State):
-	state = new_state
-	
-func goTo(targetPos: Vector2):
-	set_state(State.FINDING_SPOT)
-	move_to(targetPos, self._on_found_spot, 150 + (randi() % 150))
 
-func move_to(target_pos: Vector2, on_complete: Callable, speed: int = 100):
+func _set_random_texture(atlas_path: String, frames: int, width: int, height: int):
+	var texture = AtlasTexture.new()
+	texture.atlas = load(atlas_path)
+	texture.region = Rect2(width * (randi() % frames), 0, width, height)
+	self.texture = texture
+
+func _set_state(new_state: State):
+	#print(str(state) + " -> " + str(new_state))
+	state = new_state
+
+func goToQueueSpot(target_pos: Vector2, is_service_spot: bool):
+	var tween = _move_to(target_pos, 150 + (randi() % 150))
+	if is_service_spot:
+		tween.finished.connect(_on_counter_reached)
+		_set_state(State.WAITING_FOR_PICKUP)
+	else:
+		_set_state(State.IN_LINE)
+
+func _move_to(target_pos: Vector2, speed: int = 100) -> Tween:
 	var duration = global_position.distance_to(target_pos) / speed
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", target_pos, duration).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
-	tween.finished.connect(on_complete)
+	tween.tween_property(self, "global_position", target_pos, duration)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	return tween
 
-func _on_found_spot():
-	# Add a random belonging
-	var b_str = ["black_jacket.tscn"].pick_random()
-	var b_scene = load("res://scenes/pickableItems/" + b_str)
-	
-	belonging = b_scene.instantiate()
-	self.add_child(belonging)
-	belonging.position = position + Vector2(0, 30)		
-	
-	belonging.picked.connect(_on_belonging_picked)
+func _on_counter_reached():
+	belonging = _create_item("black_jacket.tscn", position + Vector2(0, 30))
 	dropItem.emit(belonging)
-	
-	state = State.WAITING_FOR_PICKUP
-	
+	belonging.picked.connect(_on_belonging_picked)
+	_set_state(State.WAITING_FOR_PICKUP)
+
 func _on_belonging_picked():
-	set_state(State.WAITING_FOR_TICKET)
-	_drop_thing(money)
-	money.picked.connect(_on_money_picked)
+	_set_state(State.WAITING_FOR_TICKET)
+	money = _create_item("money.tscn", position + Vector2(0, 30))
+	dropItem.emit(money)
+
+func _create_item(scene_path: String, item_pos: Vector2) -> Node2D:
+	var scene = load("res://scenes/pickableItems/%s" % scene_path)
+	var item = scene.instantiate()
+	self.add_child(item)
+	item.position = item_pos
+	return item
 
 func _leave():
-	set_state(State.LEAVING)
 	var target_pos = Vector2(get_viewport().size.x, position.y)
-	move_to(target_pos, self._on_left, 150 + (randi() % 150))
-	
-func _on_left():	
-	served.emit(self)
-	Hand.remove_surface($Surface)
+	_move_to(target_pos, 150 + (randi() % 150))
+	_set_state(State.IN_CLUB)
 
-func _on_money_picked():
-	set_state(State.WAITING_FOR_TICKET)
-
-func _drop_thing(item: Node2D):
-	if item:
-		item.position = position + Vector2(0, 50)
-		item.visible = true
-	
-func _on_surface_item_added(item: Node2D) -> void:
-	print("Something drop in front of me! " + self.name)
+func _on_surface_item_added(item: Node2D):
 	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):
 		ticket = item
 		ticket.move_to_parent(self)
 		ticket.visible = false
 		_leave()
-
-func _on_timer_timeout() -> void:
-	pass # Replace with function body.

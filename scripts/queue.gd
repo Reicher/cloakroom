@@ -3,6 +3,7 @@ extends Node2D
 @export var maxCustomers = 4
 
 @onready var order = [$Counter, $Row1, $Row2, $Row3]
+@onready var counter = $Counter
 @onready var rest = $Rest
 
 func _ready() -> void:
@@ -42,7 +43,7 @@ func handle_guest(guest: Node2D) -> void:
 			if child.get_child_count() == 0:
 				# Assign the guest to this spot
 				child.add_child(guest)
-				guest.goTo(child.position)
+				guest.goToQueueSpot(child.position, parent == counter)
 				return
 	
 	print("No available spot for guest, goes into rest")

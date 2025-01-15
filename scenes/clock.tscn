@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvupsr1kdq1mh"]
 
-[ext_resource type="Script" path="res://scripts/clock.gd" id="1_3qx8a"]
+[ext_resource type="Script" path="res://scripts/clock_arms.gd" id="1_3qx8a"]
 [ext_resource type="Texture2D" uid="uid://dxgonk3afcc3p" path="res://assets/image/clock.png" id="2_yutt5"]
 
 [node name="Clock" type="Node2D"]

@@ -1,13 +1,20 @@
 extends Node
 
-var held_belonging: Node2D = null
-
 signal pick(item: Node2D)
 
+var held_belonging: Node2D = null
 var position : Vector2 = Vector2.ZERO
 
 # Used for detecting valid places to drop items
 var surfaces: Array = []
+
+# Detect right mouse button clicks (Should be able to pick up stuff as well?)
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT \
+		and event.pressed and held_belonging:
+		if _drop_item(held_belonging):
+			held_belonging.carried = false
+			held_belonging = null
 
 func pick_up_item(item: Node2D):
 	if held_belonging:
@@ -20,18 +27,6 @@ func pick_up_item(item: Node2D):
 func add_surface_for_dropping(surface: Area2D):
 	if surface not in surfaces:
 		surfaces.append(surface)
-		
-func remove_surface(surface: Area2D):
-	if surface in surfaces:
-		surfaces.erase(surface)
-
-# Detect right mouse button clicks
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT \
-		and event.pressed and held_belonging:
-		if _drop_item(held_belonging):
-			held_belonging.carried = false
-			held_belonging = null
 		
 func _drop_item(item: Node2D):
 	var affected_surfaces = []

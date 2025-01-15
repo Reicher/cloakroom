@@ -35,6 +35,9 @@ func _process(delta: float) -> void:
 		var guest = guestScene.instantiate()
 		counter_view.handle_guest(guest)
 
+func _on_item_dropped(item: Node2D):
+	item.move_to_parent(self)
+
 func _on_pick(item: Node2D):
 	item.position = Vector2.ZERO
 	item.move_to_parent(self)
