@@ -13,6 +13,7 @@ size = Vector2(146, 125)
 
 [node name="Guest" type="Sprite2D"]
 texture = SubResource("AtlasTexture_jnwbw")
+offset = Vector2(0, -30)
 script = ExtResource("1_cosfk")
 
 [node name="Surface" parent="." instance=ExtResource("3_fgw42")]

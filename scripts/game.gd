@@ -8,7 +8,7 @@ var active_view: Node2D = null
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 10  # Total number of guests
+var total_guests = 33  # Total number of guests
 var night_duration = 5  # Duration of the night in seconds
 var elapsed_time = 0
 
