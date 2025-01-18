@@ -32,6 +32,21 @@ func _initialize_rows() -> void:
 				"position": row_start + Vector2(column_index * spot_spacing, 0)
 			})
 		rows.append(row)
+		
+# Updates the modulate property of the guest based on its Y position
+func _update_guest_modulate(guest: Node2D) -> void:
+	var max_y = $Window.position.y + $Window.size.y
+	var min_y = $Window.position.y
+	print(min_y + " " + max_y)
+	var fade_factor = clamp((guest.position.y - min_y) / (max_y - min_y), 0.0, 1.0)
+	guest.modulate = Color(fade_factor, fade_factor, fade_factor, 1.0) # Fade to black
+
+	
+func _process(delta: float) -> void:
+	for row in rows:
+		for spot in row:
+			if spot["guest"]:
+				_update_guest_modulate(spot["guest"])
 
 # Adds a guest to the first available spot
 func handle_guest(guest: Node2D) -> void:

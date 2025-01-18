@@ -26,6 +26,15 @@ offset_top = 139.0
 offset_right = 906.0
 offset_bottom = 510.0
 
+[node name="ColorRect" type="ColorRect" parent="Queue/Window"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Booth" type="Sprite2D" parent="."]
 texture = ExtResource("2_jguwd")
 centered = false
