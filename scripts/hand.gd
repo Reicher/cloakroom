@@ -40,7 +40,6 @@ func _drop_item(item: Node2D):
 	
 	for surface in affected_surfaces:
 		surface.item_dropped(item)
-		print(surface.name + " got an " + item.name + " on it")
 		
 	return true
 

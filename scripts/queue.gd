@@ -39,8 +39,6 @@ func handle_guest(guest: Node2D) -> void:
 		for spot in row:
 			if not spot["guest"]:
 				spot["guest"] = guest
-				add_child(guest)
-				guest.leaving_spot.connect(_guest_left)
 				guest.goToQueueSpot(spot["position"], row == rows[0]) # Mark as front row if applicable
 				return
 

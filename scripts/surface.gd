@@ -10,5 +10,4 @@ func _ready() -> void:
 func item_dropped(item: Node2D):
 	item_added.emit(item)
 	if can_hold_items:
-		print_debug("Moving " + item.name + " to " + self.name)
 		item.move_to_parent(self)

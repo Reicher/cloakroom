@@ -3,37 +3,32 @@ extends Node2D
 @onready var counter_view = $CounterView
 @onready var backroom = $Backroom
 
-var active_view: Node2D = null
+var active_view: Node2D = counter_view
 
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 33  # Total number of guests
-var night_duration = 5  # Duration of the night in seconds
+var total_guests = 1  # Total number of guests
+var night_duration = 10  # Duration of the night in seconds
 var elapsed_time = 0
 
 # Guest Management
 var arrival_times = []
+var leaving_times = []
 
 func _ready():
-	active_view = counter_view  # Default active view
 	Hand.pick.connect(_on_pick)
-	
-	# Calculate guest arrival times with a linearly decreasing probability distribution
-	for i in range(total_guests):
-		# Randomly pick a number between 0 and 1, then apply linear weighting
-		arrival_times.append((1 - sqrt(randf())) * night_duration)
-		
-	arrival_times.sort()
-	
-func _process(delta: float) -> void:
-	elapsed_time += delta	
 
-	# Creat a new guest and have them go to the counter
-	if not arrival_times.is_empty() and elapsed_time >= arrival_times.front():
-		arrival_times.pop_front()
+	for i in range(total_guests):
 		var guest = guestScene.instantiate()
-		counter_view.handle_guest(guest)
+		# Calculate guest arrival/leaving times with a linearly decreasing probability distribution
+		guest.arrival_time = 3#(1 - sqrt(randf())) * night_duration
+		guest.leave_time = 10#guest.arrival_time + (sqrt(randf()) * night_duration)
+		
+		guest.arriving.connect(counter_view.on_guest_arrive)
+		guest.leaving.connect(counter_view.on_guest_leave)
+		
+		counter_view.queue.add_child(guest)
 
 func _on_item_dropped(item: Node2D):
 	item.move_to_parent(self)
