@@ -21,14 +21,16 @@ func _ready():
 
 	for i in range(total_guests):
 		var guest = guestScene.instantiate()
-		# Calculate guest arrival/leaving times with a linearly decreasing probability distribution
-		guest.arrival_time = 3#(1 - sqrt(randf())) * night_duration
-		guest.leave_time = 10#guest.arrival_time + (sqrt(randf()) * night_duration)
 		
-		guest.arriving.connect(counter_view.on_guest_arrive)
-		guest.leaving.connect(counter_view.on_guest_leave)
+		# Night data should be some sort of struct
+		guest.arrival_time = randi() % 10
+		guest.leave_time = 10 + randi() % 10
 		
 		counter_view.queue.add_child(guest)
+		guest.leaving_spot.connect(counter_view.queue._guest_left)
+
+		guest.going_to_queue.connect(counter_view.queue.handle_guest)		
+		guest.dropItem.connect(counter_view.on_guest_drop)	
 
 func _on_item_dropped(item: Node2D):
 	item.move_to_parent(self)
