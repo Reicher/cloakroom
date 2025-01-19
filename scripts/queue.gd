@@ -3,8 +3,8 @@ extends Node2D
 # This file is a mess, hopefully I will never have to revisit it
 
 @export var max_spots_per_row = 4
-@export var row_spacing = 30 # Vertical spacing between rows
-@export var total_rows = 8
+@export var row_spacing = 25 # Vertical spacing between rows
+@export var total_rows = 5
 
 # 2D array of rows, each containing spots with position and guest info
 var rows: Array = []
@@ -36,12 +36,10 @@ func _initialize_rows() -> void:
 # Updates the modulate property of the guest based on its Y position
 func _update_guest_modulate(guest: Node2D) -> void:
 	var max_y = $Window.position.y + $Window.size.y
-	var min_y = $Window.position.y
-	print(min_y + " " + max_y)
+	var min_y = max_y - (total_rows * row_spacing)
 	var fade_factor = clamp((guest.position.y - min_y) / (max_y - min_y), 0.0, 1.0)
 	guest.modulate = Color(fade_factor, fade_factor, fade_factor, 1.0) # Fade to black
 
-	
 func _process(delta: float) -> void:
 	for row in rows:
 		for spot in row:
