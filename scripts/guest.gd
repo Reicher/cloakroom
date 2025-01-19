@@ -5,8 +5,8 @@ signal leaving_spot(guest: Node2D)
 signal dropItem(item: Node2D)
 
 # State management
-enum State { HOME, IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_DROPOFF, WAITING_FOR_TICKET, IN_CLUB }
-var state: State = State.HOME
+enum State { ARRIVING, IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_DROPOFF, WAITING_FOR_TICKET, IN_CLUB, LEAVING }
+var state: State = State.ARRIVING
 
 var belonging: Node2D
 var money: Node2D
@@ -41,7 +41,7 @@ func _set_state(new_state: State):
 			money = _create_item("money.tscn", Vector2(0, 30))
 			dropItem.emit(money)
 			belonging.picked.disconnect(_set_state.bind(State.WAITING_FOR_TICKET))
-		State.HOME: 
+		State.LEAVING: 
 			belonging.visible = false
 			leaving_spot.emit(self)
 			_move_to(Vector2(0, position.y), 150 + (randi() % 150))
@@ -50,12 +50,17 @@ func _set_state(new_state: State):
 	
 func _process(delta: float) -> void:
 	time += delta
-	if state == State.HOME and time >= arrival_time:
+	if state == State.ARRIVING and time >= arrival_time:
 		going_to_queue.emit(self)
-	elif state == State.IN_CLUB and time >= leave_time:
-		going_to_queue.emit(self)
-		
+	elif time >= leave_time:
+		if state == State.IN_CLUB:
+			going_to_queue.emit(self)
+		elif self.is_ancestor_of(belonging): # My jacket is allready on
+			_set_state(State.LEAVING)
+
 func goToQueueSpot(target_pos: Vector2, is_service_spot: bool):
+	if state == State.LEAVING: 
+		return
 	_set_state(State.IN_LINE)
 	var tween = _move_to(target_pos, 150 + (randi() % 150))
 	if is_service_spot:
@@ -93,4 +98,4 @@ func _on_surface_item_added(item: Node2D):
 		tween.finished.connect(_set_state.bind(State.IN_CLUB))
 	elif state == State.WAITING_FOR_DROPOFF and item == belonging:
 		item.move_to_parent(self)
-		_set_state(State.HOME)
+		_set_state(State.LEAVING)

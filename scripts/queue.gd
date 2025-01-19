@@ -33,6 +33,11 @@ func _initialize_rows() -> void:
 			})
 		rows.append(row)
 		
+func add_guest(guest: Node2D) -> void:
+	add_child(guest)
+	guest.leaving_spot.connect(_guest_left)
+	guest.going_to_queue.connect(handle_guest)	
+		
 # Updates the modulate property of the guest based on its Y position
 func _update_guest_modulate(guest: Node2D) -> void:
 	var max_y = $Window.position.y + $Window.size.y

@@ -26,10 +26,7 @@ func _ready():
 		guest.arrival_time = randi() % 10
 		guest.leave_time = 10 + randi() % 10
 		
-		counter_view.queue.add_child(guest)
-		guest.leaving_spot.connect(counter_view.queue._guest_left)
-
-		guest.going_to_queue.connect(counter_view.queue.handle_guest)		
+		counter_view.queue.add_guest(guest)	
 		guest.dropItem.connect(counter_view.on_guest_drop)	
 
 func _on_item_dropped(item: Node2D):
