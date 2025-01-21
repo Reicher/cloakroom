@@ -6,6 +6,9 @@ var belongs_to : Node2D = null
 
 @onready var area: Area2D = $Area2D
 
+func _ready() -> void:
+	add_to_group("pickable")
+
 func move_to_parent(new_parent: Node):
 	var global_position = self.global_position # Get item global position first
 	
@@ -15,7 +18,6 @@ func move_to_parent(new_parent: Node):
 	new_parent.add_child(self)
 	
 	self.global_position = global_position # Reset global position
-
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:

@@ -12,10 +12,6 @@ var total_guests = 25  # Total number of guests
 var night_duration = 10  # Duration of the night in seconds
 var elapsed_time = 0
 
-# Guest Management
-var arrival_times = []
-var leaving_times = []
-
 func _ready():
 	Hand.pick.connect(_on_pick)
 
@@ -23,11 +19,10 @@ func _ready():
 		var guest = guestScene.instantiate()
 		
 		# Night data should be some sort of struct
-		guest.arrival_time = randi() % 10
-		guest.leave_time = 10 + randi() % 10
+		guest.arrival_time = randi() % (night_duration/2)
+		guest.leave_time = (night_duration/2) + randi() % (night_duration/2)
 		
-		counter_view.queue.add_guest(guest)	
-		guest.dropItem.connect(counter_view.on_guest_drop)	
+		counter_view.add_guest(guest)	
 
 func _on_item_dropped(item: Node2D):
 	item.move_to_parent(self)

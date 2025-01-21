@@ -8,8 +8,8 @@ signal dropItem(item: Node2D)
 enum State { ARRIVING, IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_DROPOFF, WAITING_FOR_TICKET, IN_CLUB, LEAVING }
 var state: State = State.ARRIVING
 
-var belonging: Node2D
-var money: Node2D
+@onready var money = $Money
+var belonging : Node2D
 var ticket: Node2D
 
 var time = 0.0
@@ -23,8 +23,11 @@ func _ready():
 	texture.region = Rect2(145 * (randi() % 5), 0, 145, 300)
 	self.texture = texture
 	
-	belonging = _create_item("black_jacket.tscn", Vector2(0, 30))
+	var belongingScene = load("res://scenes/pickableItems/black_jacket.tscn")
+	belonging = belongingScene.instantiate()
 	belonging.visible = false
+	belonging.position = Vector2(0, 50)
+	add_child(belonging)
 	
 	print("I will arrive at "+ str(arrival_time) + " and leave at " + str(leave_time))
 
@@ -38,7 +41,7 @@ func _set_state(new_state: State):
 			ticket.visible = true
 			dropItem.emit(ticket)
 		State.WAITING_FOR_TICKET: 
-			money = _create_item("money.tscn", Vector2(0, 30))
+			money.visible = true
 			dropItem.emit(money)
 			belonging.picked.disconnect(_set_state.bind(State.WAITING_FOR_TICKET))
 		State.LEAVING: 
@@ -56,6 +59,9 @@ func _process(delta: float) -> void:
 		if state == State.IN_CLUB:
 			going_to_queue.emit(self)
 		elif self.is_ancestor_of(belonging): # My jacket is allready on
+			_set_state(State.LEAVING)
+		elif $Surface.contains(belonging):
+			belonging.move_to_parent(self)
 			_set_state(State.LEAVING)
 
 func goToQueueSpot(target_pos: Vector2, is_service_spot: bool):
@@ -79,13 +85,6 @@ func _on_counter_reached():
 		_set_state(State.WAITING_FOR_PICKUP)
 	else: # We are missing our belonging
 		_set_state(State.WAITING_FOR_DROPOFF)
-
-func _create_item(scene_path: String, item_pos: Vector2) -> Node2D:
-	var scene = load("res://scenes/pickableItems/%s" % scene_path)
-	var item = scene.instantiate()
-	self.add_child(item)
-	item.position = item_pos
-	return item
 
 func _on_surface_item_added(item: Node2D):	
 	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):

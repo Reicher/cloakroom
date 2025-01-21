@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5lv7jagjt36c"]
+[gd_scene load_steps=7 format=3 uid="uid://b5lv7jagjt36c"]
 
 [ext_resource type="Texture2D" uid="uid://cfdkgih8upaqi" path="res://assets/image/people.png" id="1_0h3y4"]
 [ext_resource type="Script" path="res://scripts/guest.gd" id="1_cosfk"]
 [ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="3_fgw42"]
+[ext_resource type="PackedScene" uid="uid://3jaosd11oj0w" path="res://scenes/pickableItems/money.tscn" id="4_umgrx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jnwbw"]
 atlas = ExtResource("1_0h3y4")
@@ -21,5 +22,9 @@ script = ExtResource("1_cosfk")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Surface"]
 position = Vector2(2, -444.5)
 shape = SubResource("RectangleShape2D_ejxsv")
+
+[node name="Money" parent="." instance=ExtResource("4_umgrx")]
+visible = false
+position = Vector2(0, 62)
 
 [connection signal="item_added" from="Surface" to="." method="_on_surface_item_added"]
