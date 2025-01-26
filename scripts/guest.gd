@@ -14,7 +14,8 @@ var state: State = State.HOME
 @onready var surface = $Surface
 
 var speed : int = 150 + (randi() % 150)
-var tween : Tween = null
+var position_tween : Tween = null
+var rock_tween: Tween = null
 
 @onready var money = $Money
 var belonging : Node2D
@@ -82,19 +83,22 @@ func _on_leave_timer_timeout() -> void:
 
 func _move_to(target_pos: Vector2) -> Tween:
 	# Stop any existing tween
-	if tween and tween.is_running():
-		tween.kill()
-		tween = null
+	if position_tween and position_tween.is_running():
+		position_tween.kill()
+		position_tween = null
+	if rock_tween and rock_tween.is_running():
+		rock_tween.kill()
+		rock_tween = null
 
 	# Position tween
 	var duration = global_position.distance_to(target_pos) / speed
-	tween = create_tween()
-	tween.tween_property(self, "global_position", target_pos, duration)
-	tween.set_trans(Tween.TRANS_LINEAR)
-	tween.set_ease(Tween.EASE_IN_OUT)
+	position_tween = create_tween()
+	position_tween.tween_property(self, "global_position", target_pos, duration)
+	position_tween.set_trans(Tween.TRANS_LINEAR)
+	position_tween.set_ease(Tween.EASE_IN_OUT)
 
 	# Rocking tween
-	var rock_tween = create_tween()
+	rock_tween = create_tween()
 	rock_tween.set_loops(-1)  # Loop indefinitely during the movement
 	rock_tween.set_trans(Tween.TRANS_LINEAR)
 	rock_tween.set_ease(Tween.EASE_IN_OUT)
@@ -105,11 +109,11 @@ func _move_to(target_pos: Vector2) -> Tween:
 	rock_tween.tween_property(self, "rotation", -0.1, rock_duration/2)
 
 	# Stop rocking when movement is finished
-	tween.finished.connect(func() -> void:
+	position_tween.finished.connect(func() -> void:
 		rock_tween.kill()
 		self.rotation = 0  # Reset rotation to 0
 	)
-	return tween
+	return position_tween
 	
 func _on_counter_reached():
 	if self.is_ancestor_of(belonging): # We have a belonging on
