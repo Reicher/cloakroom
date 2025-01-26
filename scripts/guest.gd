@@ -81,12 +81,29 @@ func _move_to(target_pos: Vector2) -> Tween:
 		tween.kill()
 		tween = null
 
-	# Create a new tween
+	# Position tween
 	var duration = global_position.distance_to(target_pos) / speed
 	tween = create_tween()
 	tween.tween_property(self, "global_position", target_pos, duration)
 	tween.set_trans(Tween.TRANS_LINEAR)
 	tween.set_ease(Tween.EASE_IN_OUT)
+
+	# Rocking tween
+	var rock_tween = create_tween()
+	rock_tween.set_loops(-1)  # Loop indefinitely during the movement
+	rock_tween.set_trans(Tween.TRANS_LINEAR)
+	rock_tween.set_ease(Tween.EASE_IN_OUT)
+
+	# Rock side-to-side by modifying the rotation property
+	var rock_duration = 1.0 / (speed / 100.0)
+	rock_tween.tween_property(self, "rotation", 0.1, rock_duration/2)
+	rock_tween.tween_property(self, "rotation", -0.1, rock_duration/2)
+
+	# Stop rocking when movement is finished
+	tween.finished.connect(func() -> void:
+		rock_tween.kill()
+		self.rotation = 0  # Reset rotation to 0
+	)
 	return tween
 	
 func _on_counter_reached():

@@ -9,7 +9,7 @@ var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
 var total_guests = 25  # Total number of guests
-var night_duration = 10  # Duration of the night in seconds
+var night_duration = 30  # Duration of the night in seconds
 var elapsed_time = 0
 
 func _ready():
