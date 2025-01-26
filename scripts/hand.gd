@@ -1,32 +1,32 @@
-extends Node
-
-signal pick(item: Node2D)
+extends Node2D
 
 var held_belonging: Node2D = null
-var position : Vector2 = Vector2.ZERO
 
 # Used for detecting valid places to drop items
 var surfaces: Array = []
 
-# Detect right mouse button clicks (Should be able to pick up stuff as well?)
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT \
-		and event.pressed and held_belonging:
-		if _drop_item(held_belonging):
-			held_belonging.carried = false
-			held_belonging = null
+func _ready() -> void:
+	# Loop over all pickable objects in the "pickable" group
+	for pickable in get_tree().get_nodes_in_group("pickable"):
+		if pickable.has_signal("picked"):  # Ensure it has the signal
+			add_pickable(pickable)
+			
+	for surface in get_tree().get_nodes_in_group("surface"):
+		add_surface(surface)
+
+func add_pickable(item: Node2D):
+	item.picked.connect(pick_up_item)
+	
+func add_surface(surface: Node2D):
+	surfaces.append(surface)
 
 func pick_up_item(item: Node2D):
 	if held_belonging:
 		print("Allready holding something")
 	else:
+		item.move_to_parent(self)
 		held_belonging = item
 		item.carried = true
-		pick.emit(item)
-
-func add_surface_for_dropping(surface: Area2D):
-	if surface not in surfaces:
-		surfaces.append(surface)
 		
 func _drop_item(item: Node2D):
 	var affected_surfaces = []
@@ -42,9 +42,14 @@ func _drop_item(item: Node2D):
 		surface.item_dropped(item)
 		
 	return true
+		
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT \
+		and event.pressed and held_belonging:
+		if _drop_item(held_belonging):
+			held_belonging.carried = false
+			held_belonging = null
 
 # Update held item's position to follow the mouse
 func _process(delta):
 	position = get_viewport().get_mouse_position()
-	if held_belonging:
-		held_belonging.position = position

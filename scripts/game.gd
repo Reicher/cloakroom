@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var counter_view = $CounterView
 @onready var backroom = $Backroom
+@onready var hand = $Hand
 
 var active_view: Node2D = counter_view
 
@@ -13,12 +14,13 @@ var night_duration = 30  # Duration of the night in seconds
 var elapsed_time = 0
 
 func _ready():
-	Hand.pick.connect(_on_pick)
-
 	for i in range(total_guests):
 		var guest = guestScene.instantiate()
 		
-		counter_view.add_guest(guest)	
+		# Ugly connections 
+		guest.dropItem.connect(hand.add_pickable)
+		counter_view.add_guest(guest)
+		hand.add_surface(guest.surface)
 		
 		# Night data should be some sort of struct
 		guest.notify_opening_hours(0, night_duration)
@@ -26,10 +28,6 @@ func _ready():
 func _on_item_dropped(item: Node2D):
 	item.move_to_parent(self)
 
-func _on_pick(item: Node2D):
-	item.position = Vector2.ZERO
-	item.move_to_parent(self)
-	
 func _on_texture_button_pressed() -> void:
 	# Toggle view between counter and backroom
 	counter_view.visible = !counter_view.visible

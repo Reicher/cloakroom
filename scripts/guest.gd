@@ -11,6 +11,8 @@ var state: State = State.HOME
 @onready var arriving = $ArrivalTimer
 @onready var leaving = $LeaveTimer
 
+@onready var surface = $Surface
+
 var speed : int = 150 + (randi() % 150)
 var tween : Tween = null
 
@@ -38,24 +40,24 @@ func notify_opening_hours(opens: int, closes: int):
 	arriving.timeout.connect(_set_state.bind(State.ARRIVING))
 	
 	leaving.start(float((night_duration/2) + randi() % (night_duration/2)))
-	print("I will arrive at "+ str(arriving.get_wait_time()) + " and leave at " + str(leaving.get_wait_time()))
+	#print("I will arrive at "+ str(arriving.get_wait_time()) + " and leave at " + str(leaving.get_wait_time()))
 
 func _set_state(new_state: State):
 	# What to do when entering a state
 	match new_state:
 		State.ARRIVING: 
 			going_to_queue.emit(self)
-		State.WAITING_FOR_PICKUP: 
+		State.WAITING_FOR_PICKUP:
 			belonging.visible = true
 			dropItem.emit(belonging)
-			belonging.picked.connect(_set_state.bind(State.WAITING_FOR_TICKET))
+			belonging.picked.connect(_belonging_dropped)
 		State.WAITING_FOR_DROPOFF: 
 			ticket.visible = true
 			dropItem.emit(ticket)
-		State.WAITING_FOR_TICKET: 
+		State.WAITING_FOR_TICKET:
 			money.visible = true
 			dropItem.emit(money)
-			belonging.picked.disconnect(_set_state.bind(State.WAITING_FOR_TICKET))
+			belonging.picked.disconnect(_belonging_dropped)
 		State.IN_CLUB: 
 			if leaving.is_stopped():
 				going_to_queue.emit(self)
@@ -65,13 +67,16 @@ func _set_state(new_state: State):
 			_move_to(Vector2(0, position.y))
 
 	state = new_state
+	
+func _belonging_dropped(item: Node2D):
+	_set_state(State.WAITING_FOR_TICKET)
 
 func _on_leave_timer_timeout() -> void:
 	if state == State.IN_CLUB:
 		going_to_queue.emit(self)
 	elif self.is_ancestor_of(belonging): # My jacket is allready on
 		_set_state(State.LEAVING)
-	elif $Surface.contains(belonging):
+	elif surface.contains(belonging):
 		belonging.move_to_parent(self)
 		_set_state(State.LEAVING)
 

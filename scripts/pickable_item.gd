@@ -1,8 +1,7 @@
 extends Node2D
 
-signal picked
+signal picked(item: Node2D)
 var carried: bool = false
-var belongs_to : Node2D = null
 
 @onready var area: Area2D = $Area2D
 
@@ -21,7 +20,5 @@ func move_to_parent(new_parent: Node):
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT and not carried:
-			Hand.pick_up_item(self)
-			if carried:
-				picked.emit()
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			picked.emit(self)
