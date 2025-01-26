@@ -18,11 +18,10 @@ func _ready():
 	for i in range(total_guests):
 		var guest = guestScene.instantiate()
 		
-		# Night data should be some sort of struct
-		guest.arrival_time = randi() % (night_duration/2)
-		guest.leave_time = (night_duration/2) + randi() % (night_duration/2)
-		
 		counter_view.add_guest(guest)	
+		
+		# Night data should be some sort of struct
+		guest.notify_opening_hours(0, night_duration)
 
 func _on_item_dropped(item: Node2D):
 	item.move_to_parent(self)
