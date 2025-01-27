@@ -28,11 +28,13 @@ func _ready():
 	texture.region = Rect2(145 * (randi() % 5), 0, 145, 300)
 	self.texture = texture
 	
-	var belongingScene = load("res://scenes/pickableItems/black_jacket.tscn")
-	belonging = belongingScene.instantiate()
-	belonging.visible = false
-	belonging.position = Vector2(0, 50)
-	add_child(belonging)
+	# Get a random cloak and add it as the guest's belonging
+	belonging = Wardrobe.new().get_random_cloak()
+	if belonging:
+		belonging.position = Vector2(0, 50)
+		add_child(belonging)
+	else:
+		print("No belonging created for the guest!")
 	
 func notify_opening_hours(opens: int, closes: int):
 	var night_duration = closes - opens

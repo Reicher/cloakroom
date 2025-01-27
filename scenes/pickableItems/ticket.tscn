@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c6hokntlrt5rk"]
 
-[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickable_item.tscn" id="1_o6fba"]
+[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickableItems/pickable_item.tscn" id="1_o6fba"]
 [ext_resource type="Texture2D" uid="uid://cdy3abuyth3bb" path="res://assets/image/ticket.png" id="2_pek8y"]
 [ext_resource type="Script" path="res://scripts/ticket.gd" id="3_id8yh"]
 
