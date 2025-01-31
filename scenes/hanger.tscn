@@ -20,7 +20,6 @@ position = Vector2(1, 19)
 position = Vector2(1, 19)
 
 [node name="Surface" parent="." instance=ExtResource("4_wteo5")]
-can_hold_items = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Surface"]
 position = Vector2(0, -509)

@@ -10,7 +10,6 @@ func _ready() -> void:
 
 func move_to_parent(new_parent: Node):
 	var global_position = self.global_position # Get item global position first
-	
 	# Remove from current parent and add to the new parent
 	if get_parent():
 		get_parent().remove_child(self)

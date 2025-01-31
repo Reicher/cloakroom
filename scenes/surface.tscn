@@ -5,3 +5,6 @@
 [node name="Surface" type="Area2D"]
 position = Vector2(0, 509)
 script = ExtResource("1_li0kv")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

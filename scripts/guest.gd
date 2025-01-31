@@ -33,8 +33,6 @@ func _ready():
 	if belonging:
 		belonging.position = Vector2(0, 50)
 		add_child(belonging)
-	else:
-		print("No belonging created for the guest!")
 	
 func notify_opening_hours(opens: int, closes: int):
 	var night_duration = closes - opens
@@ -43,7 +41,6 @@ func notify_opening_hours(opens: int, closes: int):
 	arriving.timeout.connect(_set_state.bind(State.ARRIVING))
 	
 	leaving.start(float((night_duration/2) + randi() % (night_duration/2)))
-	#print("I will arrive at "+ str(arriving.get_wait_time()) + " and leave at " + str(leaving.get_wait_time()))
 
 func _set_state(new_state: State):
 	# What to do when entering a state

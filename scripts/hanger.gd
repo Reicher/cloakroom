@@ -10,6 +10,5 @@ func _ready():
 	#shader_material.set_shader_param("is_hovering", false)
 
 func _on_surface_item_added(item: Node2D) -> void:
-	print("item hanged")
-	item.move_to_parent(self)
-	item.position = Vector2(0, 75)
+	item.move_to_parent(self) # Whyyy needed?!?!
+	item.global_position = self.global_position + Vector2(0, 75)

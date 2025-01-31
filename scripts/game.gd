@@ -17,16 +17,14 @@ func _ready():
 	for i in range(total_guests):
 		var guest = guestScene.instantiate()
 		
-		# Ugly connections 
+		# Ugly connection
 		guest.dropItem.connect(hand.add_pickable)
+		
 		counter_view.add_guest(guest)
 		hand.add_surface(guest.surface)
 		
 		# Night data should be some sort of struct
 		guest.notify_opening_hours(0, night_duration)
-
-func _on_item_dropped(item: Node2D):
-	item.move_to_parent(self)
 
 func _on_texture_button_pressed() -> void:
 	# Toggle view between counter and backroom

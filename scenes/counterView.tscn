@@ -43,7 +43,6 @@ centered = false
 position = Vector2(1041, 150)
 
 [node name="Surface" parent="Booth" instance=ExtResource("5_180sd")]
-can_hold_items = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Booth/Surface"]
 position = Vector2(575.5, 68.5)
