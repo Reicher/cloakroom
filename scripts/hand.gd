@@ -1,8 +1,9 @@
 extends Node2D
 
-var held_belonging: Node2D = null
+const MAX_HELD_ITEMS := 3  
+var held_items: Array = []  # Stack to hold items
 var surfaces: Array = []
-var item_offset := Vector2(40, 40)  # Offset for item placement
+var item_offset := Vector2(25, 25)  # spacing between items
 
 func _ready() -> void:
 	# Store all pickable items
@@ -21,33 +22,36 @@ func add_surface(surface: Area2D):
 	surfaces.append(surface)
 
 func pick_up_item(item: Node2D):
-	if held_belonging:
-		print("Already holding something")
+	if held_items.size() >= MAX_HELD_ITEMS:
+		print("Hands are full")
 	else:
 		item.move_to_parent(self)
-		held_belonging = item
+		held_items.append(item)
 		item.carried = true
 
 func _drop_item():
+	if held_items.is_empty():
+		return
+
 	var affected_surfaces = []
 	for surface in surfaces:
 		if surface.is_visible_in_tree() and surface.mouse_inside():
 			affected_surfaces.append(surface)
 	
-	var item_dropped = held_belonging
 	if len(affected_surfaces) > 0:
-		held_belonging.global_position = get_global_mouse_position()
-		# Drop the item at mouse position
-		held_belonging.carried = false
-		held_belonging = null
+		var item_dropped = held_items.pop_back() 
+		item_dropped.global_position = get_global_mouse_position()
+		item_dropped.carried = false
 	
 		for surface in affected_surfaces:
 			surface.item_dropped(item_dropped)
 
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and held_belonging != null:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and not held_items.is_empty():
 		_drop_item()
 
 func _process(delta):
-	if held_belonging:
-		held_belonging.position = get_global_mouse_position() + item_offset
+	# Update positions of held items relative to mouse
+	var hand_pos = Vector2(40, 40) + get_global_mouse_position()
+	for i in range(held_items.size()):
+		held_items[i].position = hand_pos + item_offset * i
