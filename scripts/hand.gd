@@ -2,7 +2,6 @@ extends Node2D
 
 const MAX_HELD_ITEMS := 3  
 var held_items: Array = []  # Stack to hold items
-var surfaces: Array = []
 var item_offset := Vector2(25, 25)  # spacing between items
 
 func _ready() -> void:
@@ -11,15 +10,8 @@ func _ready() -> void:
 		if pickable.has_signal("picked"):
 			add_pickable(pickable)
 
-	# Store all surfaces
-	for surface in get_tree().get_nodes_in_group("surface"):
-		add_surface(surface)
-
 func add_pickable(item: Node2D):
 	item.picked.connect(pick_up_item)
-
-func add_surface(surface: Area2D):
-	surfaces.append(surface)
 
 func pick_up_item(item: Node2D):
 	if held_items.size() >= MAX_HELD_ITEMS:
@@ -34,7 +26,7 @@ func _drop_item():
 		return
 
 	var affected_surfaces = []
-	for surface in surfaces:
+	for surface in get_tree().get_nodes_in_group("surface"):
 		if surface.is_visible_in_tree() and surface.mouse_inside():
 			affected_surfaces.append(surface)
 	

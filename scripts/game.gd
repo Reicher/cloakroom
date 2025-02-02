@@ -21,7 +21,6 @@ func _ready():
 		guest.dropItem.connect(hand.add_pickable)
 		
 		counter_view.add_guest(guest)
-		hand.add_surface(guest.surface)
 		
 		# Night data should be some sort of struct
 		guest.notify_opening_hours(0, night_duration)
