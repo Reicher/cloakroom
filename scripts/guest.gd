@@ -11,7 +11,7 @@ var state: State = State.HOME
 @onready var arriving = $ArrivalTimer
 @onready var leaving = $LeaveTimer
 
-@onready var surface = $Surface
+@onready var notificationArea = $NotificationArea
 
 var speed : int = 150 + (randi() % 150)
 var position_tween : Tween = null
@@ -76,7 +76,7 @@ func _on_leave_timer_timeout() -> void:
 		going_to_queue.emit(self)
 	elif self.is_ancestor_of(belonging): # My jacket is allready on
 		_set_state(State.LEAVING)
-	elif surface.contains(belonging):
+	elif notificationArea.overlaps_area(belonging.area):
 		belonging.move_to_parent(self)
 		_set_state(State.LEAVING)
 
@@ -128,7 +128,10 @@ func goToQueueSpot(target_pos: Vector2, is_service_spot: bool):
 	if is_service_spot:
 		tween.finished.connect(_on_counter_reached)
 
-func _on_surface_item_added(item: Node2D):	
+func counter_item_added(item: Node2D):
+	if not notificationArea.overlaps_area(item.area):
+		return
+	
 	if state == State.WAITING_FOR_TICKET and item.name.begins_with("ticket"):
 		ticket = item
 		ticket.move_to_parent(self)
