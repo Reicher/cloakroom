@@ -5,28 +5,37 @@ extends Node2D
 @onready var hand = $Hand
 
 var active_view: Node2D = counter_view
-
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 25  # Total number of guests
-var night_duration = 30  # Duration of the night in seconds
+var total_guests = 25  
+var night_duration = 30  
+
 var elapsed_time = 0
+var guest_spawn_times = []  # List of spawn times
+var guests_spawned = 0
 
 func _ready():
+	var spawn_interval = (night_duration / 2.0) / total_guests
 	for i in range(total_guests):
-		var guest = guestScene.instantiate()
+		guest_spawn_times.append(i * spawn_interval)  # Precompute spawn times
 		
-		# Ugly connection
-		guest.dropItem.connect(hand.add_pickable)
-		
-		counter_view.add_guest(guest)
-		
-		# Night data should be some sort of struct
-		guest.notify_opening_hours(0, night_duration)
+	print(guest_spawn_times)
+
+func _process(delta):
+	elapsed_time += delta
+
+	while guests_spawned < total_guests and elapsed_time >= guest_spawn_times[guests_spawned]:
+		spawn_guest()
+		guests_spawned += 1
+
+func spawn_guest():
+	var guest = guestScene.instantiate()
+	guest.dropItem.connect(hand.add_pickable)
+	counter_view.add_guest(guest)
+	guest.notify_opening_hours(0, night_duration)
 
 func _on_texture_button_pressed() -> void:
-	# Toggle view between counter and backroom
 	counter_view.visible = !counter_view.visible
 	backroom.visible = !backroom.visible
 	active_view = counter_view if counter_view.visible else backroom

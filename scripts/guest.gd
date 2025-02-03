@@ -5,12 +5,14 @@ signal leaving_spot(guest: Node2D)
 signal dropItem(item: Node2D)
 
 # State management
-enum State { HOME, ARRIVING, IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_DROPOFF, WAITING_FOR_TICKET, IN_CLUB, LEAVING }
-var state: State = State.HOME
+enum State { IN_LINE, WAITING_FOR_PICKUP, WAITING_FOR_DROPOFF, WAITING_FOR_TICKET, IN_CLUB, LEAVING }
+var state: State = State.IN_LINE
 
-@onready var arriving = $ArrivalTimer
+# New State management
+enum Wants { STORE, PARTY, GO_HOME }
+var want: Wants = Wants.STORE
+
 @onready var leaving = $LeaveTimer
-
 @onready var notificationArea = $NotificationArea
 
 var speed : int = 150 + (randi() % 150)
@@ -33,20 +35,16 @@ func _ready():
 	if belonging:
 		belonging.position = Vector2(0, 50)
 		add_child(belonging)
+
 	
 func notify_opening_hours(opens: int, closes: int):
 	var night_duration = closes - opens
-	
-	arriving.start(float(randi() % (night_duration/2)))
-	arriving.timeout.connect(_set_state.bind(State.ARRIVING))
-	
 	leaving.start(float((night_duration/2) + randi() % (night_duration/2)))
+	going_to_queue.emit(self)
 
 func _set_state(new_state: State):
 	# What to do when entering a state
 	match new_state:
-		State.ARRIVING: 
-			going_to_queue.emit(self)
 		State.WAITING_FOR_PICKUP:
 			belonging.visible = true
 			dropItem.emit(belonging)
