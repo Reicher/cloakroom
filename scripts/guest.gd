@@ -48,8 +48,9 @@ func stand_in_queue(queue: Node2D):
 	_queue = queue
 	queue.moving.connect(find_better_spot)
 	var pos = queue.join(self)
-	print("Guest " + str(guest_id) + " Joining queue at position: " + str(pos))
-	_move_to(pos)
+	if pos: # Might already be in best spot
+		print("Guest " + str(guest_id) + " Joining queue at position: " + str(pos))
+		_move_to(pos)
 	_set_state(State.IN_LINE)
 	
 func leave_queue():
