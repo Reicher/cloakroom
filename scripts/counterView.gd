@@ -4,7 +4,8 @@ extends Node2D
 @onready var counter = $Booth/Surface
 
 func add_guest(guest: Node2D):
-	queue.add_guest(guest)
+	guest.stand_in_queue(queue)
+	
 	guest.dropItem.connect(on_guest_drop)	
 	counter.item_added.connect(guest.counter_item_added)
 
