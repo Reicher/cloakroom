@@ -9,7 +9,6 @@ var speed : int = 150 + (randi() % 150)
 var position_tween : Tween = null
 var rock_tween: Tween = null
 
-@onready var money = $Money
 var belonging : Node2D
 var ticket: Node2D
 
@@ -85,8 +84,9 @@ func _move_to(target_pos: Vector2) -> Tween:
 # Stupid function that nees to die
 func notify_opening_hours(opens: int, closes: int):
 	var night_duration = closes - opens
-	#leaving.start(float((night_duration/2) + randi() % (night_duration/2)))
-	
+	leaving.start(float((night_duration/2) + randi() % (night_duration/2)))
+	leaving.timeout.connect(change_state.bind("Leave"))
+
 func counter_item_added(item: Node2D):
 	await get_tree().physics_frame  # Wait until physics updates so that item box is correct
 	if _queue.at_counter(self) and not position_tween.is_running() and notificationArea.overlaps_area(item.area): 
