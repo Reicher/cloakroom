@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5lv7jagjt36c"]
+[gd_scene load_steps=8 format=3 uid="uid://b5lv7jagjt36c"]
 
 [ext_resource type="Texture2D" uid="uid://cfdkgih8upaqi" path="res://assets/image/people.png" id="1_0h3y4"]
-[ext_resource type="Script" path="res://scripts/guest.gd" id="1_cosfk"]
-[ext_resource type="PackedScene" uid="uid://3jaosd11oj0w" path="res://scenes/pickableItems/money.tscn" id="4_umgrx"]
+[ext_resource type="Script" path="res://scripts/guest/guest.gd" id="2_lea64"]
+[ext_resource type="Script" path="res://scripts/guest/store_state.gd" id="4_rmlru"]
+[ext_resource type="Script" path="res://scripts/guest/party_state.gd" id="5_wnbbw"]
+[ext_resource type="Script" path="res://scripts/guest/leave_state.gd" id="6_spsb4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jnwbw"]
 atlas = ExtResource("1_0h3y4")
@@ -14,11 +16,7 @@ size = Vector2(146, 125)
 [node name="Guest" type="Sprite2D"]
 texture = SubResource("AtlasTexture_jnwbw")
 offset = Vector2(0, -30)
-script = ExtResource("1_cosfk")
-
-[node name="Money" parent="." instance=ExtResource("4_umgrx")]
-visible = false
-position = Vector2(0, 62)
+script = ExtResource("2_lea64")
 
 [node name="LeaveTimer" type="Timer" parent="."]
 one_shot = true
@@ -28,5 +26,20 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NotificationArea"]
 position = Vector2(2, 64.5)
 shape = SubResource("RectangleShape2D_ejxsv")
+
+[node name="Store" type="Node" parent="."]
+script = ExtResource("4_rmlru")
+
+[node name="Party" type="Node" parent="."]
+script = ExtResource("5_wnbbw")
+
+[node name="Leave" type="Node" parent="."]
+script = ExtResource("6_spsb4")
+
+[node name="Label" type="Label" parent="."]
+offset_top = -144.0
+offset_right = 40.0
+offset_bottom = -121.0
+text = "1"
 
 [connection signal="timeout" from="LeaveTimer" to="." method="_on_leave_timer_timeout"]

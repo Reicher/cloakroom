@@ -8,7 +8,7 @@ var active_view: Node2D = counter_view
 var guestScene = preload("res://scenes/guest.tscn")
 
 # Club Night Settings
-var total_guests = 24
+var total_guests = 20
 var night_duration = 30  
 
 var elapsed_time = 0
@@ -16,7 +16,7 @@ var guest_spawn_times = []  # List of spawn times
 var guests_spawned = 0
 
 func _ready():
-	var spawn_interval = (night_duration / 2.0) / total_guests
+	var spawn_interval = 0#(night_duration / 2.0) / total_guests
 	for i in range(total_guests):
 		guest_spawn_times.append(i * spawn_interval)  # Precompute spawn times
 		
@@ -34,6 +34,7 @@ func spawn_guest():
 	guest.dropItem.connect(hand.add_pickable)
 	counter_view.add_guest(guest)
 	guest.notify_opening_hours(0, night_duration)
+	guest.change_state("Store") # Initial state
 
 func _on_texture_button_pressed() -> void:
 	counter_view.visible = !counter_view.visible

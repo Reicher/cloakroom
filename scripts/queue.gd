@@ -37,17 +37,15 @@ func _update_guest_modulate(guest: Node2D) -> void:
 	var fade_factor = clamp((guest.position.y - min_y) / (max_y - min_y), 0.0, 1.0)
 	guest.modulate = Color(fade_factor, fade_factor, fade_factor, 1.0)
 
-func join(guest: Node2D):
-	if not guest.is_ancestor_of(self):
-		add_child(guest)
-	return get_best_spot(guest)
-
 func leave(guest: Node2D) -> void:
 	_find_guest_spot(guest)["guest"] = null
 	moving.emit()
 
 func at_counter(guest: Node2D) -> bool:
-	return _find_guest_spot(guest).get("row", -1) == 0
+	var spot = _find_guest_spot(guest)
+	if spot != {}: 
+		return spot["row"] == 0
+	return false
 
 func _process(delta: float) -> void:
 	for row in rows:
@@ -56,15 +54,16 @@ func _process(delta: float) -> void:
 				_update_guest_modulate(spot["guest"])
 
 func get_best_spot(guest: Node2D):
-	if at_counter(guest):
+	var current_spot = _find_guest_spot(guest)
+	if current_spot and current_spot["row"] == 0: # alread at counter
 		return null
 
-	var current_spot = _find_guest_spot(guest)
 	if current_spot:
 		var better_spot = _get_free_spot_below(current_spot["row"], current_spot["column"])
 		if better_spot:
 			current_spot["guest"] = null
 			better_spot["guest"] = guest
+			print("Guest " + str(guest.guest_id) + " updated position to " + str(better_spot["row"]) + "," + str(better_spot["column"]))
 			return better_spot["position"]
 		return null
 
@@ -72,6 +71,7 @@ func get_best_spot(guest: Node2D):
 		for spot in row:
 			if not spot["guest"]:
 				spot["guest"] = guest
+				print("Guest " + str(guest.guest_id) + " got position " + str(spot["row"]) + "," + str(spot["column"]))
 				return spot["position"]
 
 	push_error("No available spot found for guest!")

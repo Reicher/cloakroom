@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/pickable_item.gd" id="1_h4u6v"]
 
-[node name="PickableItem" type="Node2D"]
+[node name="PickableItem" type="Node2D" groups=["pickable"]]
 texture_filter = 1
 script = ExtResource("1_h4u6v")
 

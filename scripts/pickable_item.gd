@@ -1,12 +1,8 @@
 extends Node2D
 
 signal picked(item: Node2D)
-var carried: bool = false
 
 @onready var area: Area2D = $Area2D
-
-func _ready() -> void:
-	add_to_group("pickable")
 
 func move_to_parent(new_parent: Node):
 	var global_position = self.global_position # Get item global position first

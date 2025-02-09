@@ -26,7 +26,6 @@ static var guests = 1
 var guest_id = guests
 
 
-
 func _ready():
 	global_position = Vector2(0, 300)
 	var texture = AtlasTexture.new()
@@ -42,7 +41,6 @@ func _ready():
 
 	print("Guest " + str(guest_id) + " Initialized with speed: " + str(speed) + ", Belonging: " + str(belonging))
 	guests += 1
-	
 
 func stand_in_queue(queue: Node2D):
 	_queue = queue

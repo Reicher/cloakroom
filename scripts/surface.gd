@@ -3,11 +3,8 @@ extends Area2D
 signal item_added(item: Node2D)
 signal right_clicked(surface: Area2D)
 
-func _ready() -> void:
-	add_to_group("surface")
-
 func add_item(item: Node2D):
-	item.carried = false # Needed? 
+	print(str(item) + " dropped on surface " + str(self))
 	item.move_to_parent(self)
 	item_added.emit(item)
 

@@ -7,7 +7,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_tykhu"]
 font_size = 12
 
-[node name="PickableItem" instance=ExtResource("1_o6fba")]
+[node name="PickableItem" groups=["ticket"] instance=ExtResource("1_o6fba")]
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_pek8y")

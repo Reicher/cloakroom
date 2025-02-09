@@ -27,7 +27,6 @@ func pick_up_item(item: Node2D):
 	else:
 		item.move_to_parent(self)
 		held_items.append(item)
-		item.carried = true
 
 func _process(delta):
 	# Update positions of held items relative to mouse

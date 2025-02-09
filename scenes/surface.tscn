@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/surface.gd" id="1_li0kv"]
 
-[node name="Surface" type="Area2D"]
+[node name="Surface" type="Area2D" groups=["surface"]]
 position = Vector2(0, 509)
 script = ExtResource("1_li0kv")
 
