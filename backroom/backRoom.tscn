@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://vc34ay23a4hy"]
 
-[ext_resource type="Texture2D" uid="uid://stfv18hhnxtp" path="res://assets/image/backroom.png" id="1_30mxw"]
-[ext_resource type="PackedScene" uid="uid://h8f1ijy6dg00" path="res://scenes/hanger.tscn" id="3_noerm"]
-[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="4_qo0e2"]
+[ext_resource type="Texture2D" uid="uid://stfv18hhnxtp" path="res://backroom/image/backroom.png" id="1_30mxw"]
+[ext_resource type="PackedScene" uid="uid://h8f1ijy6dg00" path="res://backroom/hanger.tscn" id="3_noerm"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://surface.tscn" id="4_qo0e2"]
 
 [node name="Backroom" type="Sprite2D"]
 texture_filter = 1

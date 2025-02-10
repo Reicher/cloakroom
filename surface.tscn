@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bscrtrdieeeg0"]
 
-[ext_resource type="Script" path="res://scripts/surface.gd" id="1_li0kv"]
+[ext_resource type="Script" path="res://surface.gd" id="1_li0kv"]
 
 [node name="Surface" type="Area2D" groups=["surface"]]
 position = Vector2(0, 509)

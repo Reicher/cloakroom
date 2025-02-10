@@ -63,7 +63,6 @@ func get_best_spot(guest: Node2D):
 		if better_spot:
 			current_spot["guest"] = null
 			better_spot["guest"] = guest
-			print("Guest " + str(guest.guest_id) + " updated position to " + str(better_spot["row"]) + "," + str(better_spot["column"]))
 			return better_spot["position"]
 		return null
 
@@ -71,7 +70,6 @@ func get_best_spot(guest: Node2D):
 		for spot in row:
 			if not spot["guest"]:
 				spot["guest"] = guest
-				print("Guest " + str(guest.guest_id) + " got position " + str(spot["row"]) + "," + str(spot["column"]))
 				return spot["position"]
 
 	push_error("No available spot found for guest!")

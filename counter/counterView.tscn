@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://dxbjg1hsqysrg"]
 
-[ext_resource type="Script" path="res://scripts/counterView.gd" id="1_s3h55"]
-[ext_resource type="Texture2D" uid="uid://c4072p0s76a0o" path="res://assets/image/serviceWindow.png" id="2_jguwd"]
-[ext_resource type="Script" path="res://scripts/queue.gd" id="3_vjcev"]
-[ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://scenes/clock.tscn" id="4_miswy"]
-[ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://scenes/pickableItems/newspaper.tscn" id="4_yor8v"]
-[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="5_180sd"]
+[ext_resource type="Script" path="res://counter/counterView.gd" id="1_s3h55"]
+[ext_resource type="Texture2D" uid="uid://c4072p0s76a0o" path="res://counter/image/serviceWindow.png" id="2_jguwd"]
+[ext_resource type="Script" path="res://counter/queue.gd" id="3_vjcev"]
+[ext_resource type="PackedScene" uid="uid://bvupsr1kdq1mh" path="res://counter/clock.tscn" id="4_miswy"]
+[ext_resource type="PackedScene" uid="uid://rji8ei7xgoi4" path="res://counter/newspaper.tscn" id="4_yor8v"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://surface.tscn" id="5_180sd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g8ypt"]
 size = Vector2(1151, 137)

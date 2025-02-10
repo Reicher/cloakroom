@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://v7a2fkcy3kfe"]
 
-[ext_resource type="Script" path="res://scripts/pickable_item.gd" id="1_h4u6v"]
+[ext_resource type="Script" path="res://pickable_item.gd" id="1_h4u6v"]
 
 [node name="PickableItem" type="Node2D" groups=["pickable"]]
 texture_filter = 1

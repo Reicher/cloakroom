@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://rji8ei7xgoi4"]
 
-[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickableItems/pickable_item.tscn" id="1_splh6"]
-[ext_resource type="Texture2D" uid="uid://eeqixdr464j" path="res://assets/image/misc_items.png" id="2_bsyyq"]
+[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://pickable_item.tscn" id="1_splh6"]
+[ext_resource type="Texture2D" uid="uid://eeqixdr464j" path="res://counter/image/misc_items.png" id="2_bsyyq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nkbww"]
 atlas = ExtResource("2_bsyyq")

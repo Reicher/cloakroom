@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bdbt5hu1upy2k"]
 
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_wby8c"]
-[ext_resource type="PackedScene" uid="uid://dxbjg1hsqysrg" path="res://scenes/counterView.tscn" id="2_2qaat"]
-[ext_resource type="PackedScene" uid="uid://vc34ay23a4hy" path="res://scenes/backRoom.tscn" id="3_lcbh3"]
-[ext_resource type="Texture2D" uid="uid://c5w6kmf4sou21" path="res://assets/image/turn.png" id="4_mi7fi"]
-[ext_resource type="Script" path="res://scripts/hand.gd" id="5_anlus"]
+[ext_resource type="Script" path="res://game.gd" id="1_wby8c"]
+[ext_resource type="PackedScene" uid="uid://dxbjg1hsqysrg" path="res://counter/counterView.tscn" id="2_2qaat"]
+[ext_resource type="PackedScene" uid="uid://vc34ay23a4hy" path="res://backroom/backRoom.tscn" id="3_lcbh3"]
+[ext_resource type="Texture2D" uid="uid://c5w6kmf4sou21" path="res://turn.png" id="4_mi7fi"]
+[ext_resource type="Script" path="res://hand.gd" id="5_anlus"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_wby8c")

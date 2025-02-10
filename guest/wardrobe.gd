@@ -5,7 +5,7 @@ var cloaks: Array[String] = []
 
 # Constructor: Initialize and load cloaks
 func _init():
-	var cloak_dir = "res://scenes/pickableItems/cloaks/"
+	var cloak_dir = "res://guest/cloaks/"
 	var dir = DirAccess.open(cloak_dir)
 	if dir:
 		for file in dir.get_files():
@@ -22,5 +22,5 @@ func get_random_cloak() -> Node2D:
 	if cloak_scene:
 		return cloak_scene.instantiate() as Node2D
 	else:
-		push_error("Failed to load cloak: " + selected_cloak)
+		print("Failed to find cloak?!")
 		return null

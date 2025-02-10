@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://h8f1ijy6dg00"]
 
-[ext_resource type="Script" path="res://scripts/hanger.gd" id="1_8vxsm"]
-[ext_resource type="Texture2D" uid="uid://n7f28got6ja4" path="res://assets/image/hanger.png" id="1_ob1hw"]
-[ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://scenes/pickableItems/ticket.tscn" id="2_2g6x2"]
-[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://scenes/surface.tscn" id="4_wteo5"]
+[ext_resource type="Script" path="res://backroom/hanger.gd" id="1_8vxsm"]
+[ext_resource type="Texture2D" uid="uid://n7f28got6ja4" path="res://backroom/image/hanger.png" id="1_ob1hw"]
+[ext_resource type="PackedScene" uid="uid://c6hokntlrt5rk" path="res://backroom/ticket.tscn" id="2_2g6x2"]
+[ext_resource type="PackedScene" uid="uid://bscrtrdieeeg0" path="res://surface.tscn" id="4_wteo5"]
 
 [node name="Hanger" type="Node2D"]
 texture_filter = 1

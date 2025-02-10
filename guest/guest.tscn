@@ -1,13 +1,13 @@
 [gd_scene load_steps=8 format=3 uid="uid://b5lv7jagjt36c"]
 
-[ext_resource type="Texture2D" uid="uid://cfdkgih8upaqi" path="res://assets/image/people.png" id="1_0h3y4"]
-[ext_resource type="Script" path="res://scripts/guest/guest.gd" id="2_lea64"]
-[ext_resource type="Script" path="res://scripts/guest/store_state.gd" id="4_rmlru"]
-[ext_resource type="Script" path="res://scripts/guest/party_state.gd" id="5_wnbbw"]
-[ext_resource type="Script" path="res://scripts/guest/leave_state.gd" id="6_spsb4"]
+[ext_resource type="Texture2D" uid="uid://cfdkgih8upaqi" path="res://guest/image/people.png" id="1_ua37k"]
+[ext_resource type="Script" path="res://guest/guest.gd" id="2_7n4nh"]
+[ext_resource type="Script" path="res://guest/store_state.gd" id="3_awl4w"]
+[ext_resource type="Script" path="res://guest/party_state.gd" id="4_difsw"]
+[ext_resource type="Script" path="res://guest/leave_state.gd" id="5_xmq3e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jnwbw"]
-atlas = ExtResource("1_0h3y4")
+atlas = ExtResource("1_ua37k")
 region = Rect2(0, 0, 145, 252)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ejxsv"]
@@ -16,7 +16,7 @@ size = Vector2(146, 125)
 [node name="Guest" type="Sprite2D"]
 texture = SubResource("AtlasTexture_jnwbw")
 offset = Vector2(0, -30)
-script = ExtResource("2_lea64")
+script = ExtResource("2_7n4nh")
 
 [node name="LeaveTimer" type="Timer" parent="."]
 one_shot = true
@@ -28,13 +28,13 @@ position = Vector2(2, 64.5)
 shape = SubResource("RectangleShape2D_ejxsv")
 
 [node name="Store" type="Node" parent="."]
-script = ExtResource("4_rmlru")
+script = ExtResource("3_awl4w")
 
 [node name="Party" type="Node" parent="."]
-script = ExtResource("5_wnbbw")
+script = ExtResource("4_difsw")
 
 [node name="Leave" type="Node" parent="."]
-script = ExtResource("6_spsb4")
+script = ExtResource("5_xmq3e")
 
 [node name="Label" type="Label" parent="."]
 offset_top = -144.0

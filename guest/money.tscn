@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://3jaosd11oj0w"]
 
-[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://scenes/pickableItems/pickable_item.tscn" id="1_4ua86"]
-[ext_resource type="Texture2D" uid="uid://b05ekt3o0wlg1" path="res://assets/image/money.png" id="2_icva0"]
+[ext_resource type="PackedScene" uid="uid://v7a2fkcy3kfe" path="res://pickable_item.tscn" id="1_4ua86"]
+[ext_resource type="Texture2D" uid="uid://b05ekt3o0wlg1" path="res://guest/image/money.png" id="2_icva0"]
 
 [node name="Money" instance=ExtResource("1_4ua86")]
 

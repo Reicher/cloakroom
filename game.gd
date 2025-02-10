@@ -5,7 +5,7 @@ extends Node2D
 @onready var hand = $Hand
 
 var active_view: Node2D = counter_view
-var guestScene = preload("res://scenes/guest.tscn")
+var guestScene = preload("res://guest/guest.tscn")
 
 # Club Night Settings
 var total_guests = 9

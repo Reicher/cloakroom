@@ -22,7 +22,7 @@ func _ready():
 	guests += 1
 	global_position = Vector2(0, 300)
 	var texture = AtlasTexture.new()
-	texture.atlas = load("res://assets/image/people.png")
+	texture.atlas = load("res://guest/image/people.png")
 	texture.region = Rect2(145 * (randi() % 5), 0, 145, 300)
 	self.texture = texture
 
@@ -48,7 +48,7 @@ func find_better_spot():
 		_move_to(position)
 		
 func pay(amount: int):
-	var money = load("res://scenes/pickableItems/money.tscn").instantiate()
+	var money = load("res://guest/money.tscn").instantiate()
 	money.position = position + Vector2(0, 62)
 	dropItem.emit(money)
 
